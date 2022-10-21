@@ -1,0 +1,41 @@
+name: Cerberos-Build
+
+on:
+  push:
+    # Run when any tag is created.
+    tags:
+      - '*'
+
+  # Run on PR's for master when Opened, Reopened or Synchronized.
+  pull_request:
+    branches:
+      - master
+    types:
+      - opened
+      - synchronize
+      - reopened
+      - closed
+
+jobs:
+  cerberos-build:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        php-version: [ 8.0 ]
+
+    steps:
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php-version }}
+
+      - uses: actions/checkout@v2
+
+      - name: Install Composer Dependencies
+        run: composer install --prefer-dist --no-interaction  --no-progress --no-suggest
+
+      - name: Execute PHPUnit
+        run: vendor/bin/phpunit
+
+      - name: The PHP Security Checker
+        uses: symfonycorp/security-checker-action@v3
