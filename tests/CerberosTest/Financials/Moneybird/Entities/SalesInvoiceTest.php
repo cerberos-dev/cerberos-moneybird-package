@@ -2,26 +2,40 @@
 
 namespace PicqerTest\Financials\Moneybird\Entities;
 
-use InvalidArgumentException;
-use PHPUnit\Framework\TestCase;
+use Cerberos\Exceptions\ApiException;
 use Cerberos\Moneybird\Connection;
 use Cerberos\Moneybird\Entities\SalesInvoice;
+use GuzzleHttp\Exception\GuzzleException;
+use InvalidArgumentException;
+use PHPUnit\Framework\TestCase;
 use Prophecy\Argument\Token\AnyValueToken;
 use Prophecy\PhpUnit\ProphecyTrait;
 use Prophecy\Prophecy\ObjectProphecy;
+use stdClass;
 
 class SalesInvoiceTest extends TestCase
 {
     use ProphecyTrait;
 
-    /** @var SalesInvoice */
-    private $salesInvoice;
-    /** @var ObjectProphecy */
-    private $connection;
-    /** @var ObjectProphecy */
-    private $options;
-    /** @var array */
-    private $optionsJson;
+    /**
+     * @var SalesInvoice
+     */
+    private SalesInvoice $salesInvoice;
+
+    /**
+     * @var ObjectProphecy
+     */
+    private ObjectProphecy $connection;
+
+    /**
+     * @var ObjectProphecy
+     */
+    private ObjectProphecy $options;
+
+    /**
+     * @var array
+     */
+    private array $optionsJson;
 
     protected function setUp(): void
     {
@@ -37,6 +51,10 @@ class SalesInvoiceTest extends TestCase
         $this->salesInvoice = new SalesInvoice($this->connection->reveal());
     }
 
+    /**
+     * @throws ApiException
+     * @throws GuzzleException
+     */
     public function testSendInvoiceThrowsExceptionWhenNonOptionsPassed()
     {
         try {
@@ -47,13 +65,17 @@ class SalesInvoiceTest extends TestCase
         }
 
         try {
-            $this->salesInvoice->sendInvoice(new \stdClass());
+            $this->salesInvoice->sendInvoice(new stdClass());
             self::fail('Should have thrown exception');
         } catch (InvalidArgumentException $e) {
             $this->addToAssertionCount(1);
         }
     }
 
+    /**
+     * @throws ApiException
+     * @throws GuzzleException
+     */
     public function testSendWithoutArguments()
     {
         $this->connection->patch(new AnyValueToken(), json_encode([
@@ -65,6 +87,10 @@ class SalesInvoiceTest extends TestCase
         $this->salesInvoice->sendInvoice();
     }
 
+    /**
+     * @throws ApiException
+     * @throws GuzzleException
+     */
     public function testSendWithMethodAsString()
     {
         $this->connection->patch(new AnyValueToken(), json_encode([
@@ -76,6 +102,10 @@ class SalesInvoiceTest extends TestCase
         $this->salesInvoice->sendInvoice(SalesInvoice\SendInvoiceOptions::METHOD_EMAIL);
     }
 
+    /**
+     * @throws ApiException
+     * @throws GuzzleException
+     */
     public function testSendWithOptionsObject()
     {
         $this->connection->patch(new AnyValueToken(), json_encode([
