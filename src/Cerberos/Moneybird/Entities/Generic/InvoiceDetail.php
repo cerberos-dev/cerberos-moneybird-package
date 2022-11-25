@@ -9,7 +9,7 @@ abstract class InvoiceDetail extends Model
     /**
      * @var array
      */
-    protected $fillable = [
+    protected array $fillable = [
         'id',
         'tax_rate_id',
         'ledger_account_id',
