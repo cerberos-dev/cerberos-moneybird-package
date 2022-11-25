@@ -9,7 +9,7 @@ abstract class Event extends Model
     /**
      * @var array
      */
-    protected $fillable = [
+    protected array $fillable = [
         'administration_id',
         'user_id',
         'action',
