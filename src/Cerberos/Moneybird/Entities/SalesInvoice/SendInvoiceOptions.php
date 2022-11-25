@@ -5,7 +5,6 @@ namespace Cerberos\Moneybird\Entities\SalesInvoice;
 use DateTime;
 use InvalidArgumentException;
 use JsonSerializable;
-use ReturnTypeWillChange;
 
 class SendInvoiceOptions implements JsonSerializable
 {
@@ -14,12 +13,20 @@ class SendInvoiceOptions implements JsonSerializable
     const METHOD_POST              = 'Post';
     const METHOD_MANUAL            = 'Manual';
 
-    /** @var string */
-    private $method;
-    /** @var string|null */
-    private $emailAddress;
-    /** @var string */
-    private $emailMessage;
+    /**
+     * @var string
+     */
+    private string $method;
+
+    /**
+     * @var string|null
+     */
+    private ?string $emailAddress;
+
+    /**
+     * @var string|null
+     */
+    private ?string $emailMessage;
 
     /**
      * If set to true, the e-mail is scheduled for the given $scheduleDate
@@ -27,28 +34,41 @@ class SendInvoiceOptions implements JsonSerializable
      *
      * @var bool
      */
-    private $scheduled = null;
-    private $scheduleDate;
+    private ?bool $scheduled = null;
+
+    /**
+     * @var mixed|null
+     */
+    private mixed $scheduleDate = null;
 
     /** Undocumented boolean properties */
 
-    /** @var bool */
-    private $mergeable;
-    /** @var bool */
-    private $deliverUbl;
+    /**
+     * @var bool|null
+     */
+    private ?bool $mergeable = null;
 
-    public function __construct(
-        $deliveryMethod = null,
-        $emailAddress = null,
-        $emailMessage = null
-    )
+    /**
+     * @var bool|null
+     */
+    private ?bool $deliverUbl = null;
+
+    /**
+     * @param $deliveryMethod
+     * @param $emailAddress
+     * @param $emailMessage
+     */
+    public function __construct($deliveryMethod = null, $emailAddress = null, $emailMessage = null)
     {
         $this->setMethod($deliveryMethod ?: self::METHOD_EMAIL);
         $this->setEmailAddress($emailAddress);
         $this->setEmailMessage($emailMessage);
     }
 
-    private static function getValidMethods()
+    /**
+     * @return string[]
+     */
+    private static function getValidMethods(): array
     {
         // TODO move this to a private const VALID_METHODS when php 7 is supported
         return [
@@ -59,19 +79,29 @@ class SendInvoiceOptions implements JsonSerializable
         ];
     }
 
-    public function schedule(DateTime $date)
+    /**
+     * @param DateTime $date
+     *
+     * @return void
+     */
+    public function schedule(DateTime $date): void
     {
         $this->scheduleDate = $date;
         $this->scheduled = true;
     }
 
-    public function isScheduled()
+    /**
+     * @return bool
+     */
+    public function isScheduled(): bool
     {
         return $this->scheduled === true;
     }
 
-    #[ReturnTypeWillChange]
-    public function jsonSerialize()
+    /**
+     * @return mixed
+     */
+    public function jsonSerialize(): mixed
     {
         return array_filter([
             'delivery_method'   => $this->getMethod(),
@@ -89,7 +119,7 @@ class SendInvoiceOptions implements JsonSerializable
     /**
      * @return mixed
      */
-    public function getScheduleDate()
+    public function getScheduleDate(): mixed
     {
         return $this->scheduleDate;
     }
@@ -97,20 +127,25 @@ class SendInvoiceOptions implements JsonSerializable
     /**
      * @return string
      */
-    public function getMethod()
+    public function getMethod(): string
     {
         return $this->method;
     }
 
     /**
      * @param string $method
+     *
+     * @return void
      */
-    public function setMethod($method)
+    public function setMethod(string $method): void
     {
         $validMethods = self::getValidMethods();
+
         if (!in_array($method, $validMethods)) {
             $method = is_object($method) ? get_class($method) : $method;
+
             $validMethodNames = implode(',', $validMethods);
+
             throw new InvalidArgumentException("Invalid method: '$method'. Expected one of: '$validMethodNames'");
         }
 
@@ -118,65 +153,73 @@ class SendInvoiceOptions implements JsonSerializable
     }
 
     /**
-     * @return null|string
+     * @return string|null
      */
-    public function getEmailAddress()
+    public function getEmailAddress(): ?string
     {
         return $this->emailAddress;
     }
 
     /**
-     * @param null|string $emailAddress
+     * @param string|null $emailAddress
+     *
+     * @return void
      */
-    public function setEmailAddress($emailAddress)
+    public function setEmailAddress(string|null $emailAddress): void
     {
         $this->emailAddress = $emailAddress;
     }
 
     /**
-     * @return string
+     * @return string|null
      */
-    public function getEmailMessage()
+    public function getEmailMessage(): ?string
     {
         return $this->emailMessage;
     }
 
     /**
-     * @param string $emailMessage
+     * @param string|null $emailMessage
+     *
+     * @return void
      */
-    public function setEmailMessage($emailMessage)
+    public function setEmailMessage(string|null $emailMessage): void
     {
         $this->emailMessage = $emailMessage;
     }
 
     /**
-     * @return bool
+     * @return bool|null
      */
-    public function getMergeable()
+    public function getMergeable(): ?bool
     {
         return $this->mergeable;
     }
 
     /**
      * @param bool $mergeable
+     *
+     * @return void
      */
-    public function setMergeable($mergeable)
+    public function setMergeable(bool $mergeable): void
     {
         $this->mergeable = $mergeable;
     }
 
     /**
-     * @return bool
+     * @return bool|null
      */
-    public function getDeliverUbl()
+    public function getDeliverUbl(): ?bool
     {
         return $this->deliverUbl;
     }
 
     /**
      * @param bool $deliverUbl
+     *
+     * @return void
      */
-    public function setDeliverUbl($deliverUbl)
+    public function setDeliverUbl(bool $deliverUbl): void
     {
         $this->deliverUbl = $deliverUbl;
     }
