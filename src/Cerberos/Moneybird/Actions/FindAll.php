@@ -19,7 +19,7 @@ trait FindAll
      * @throws GuzzleException
      * @throws TooManyRequestsException
      */
-    public function get($params = [])
+    public function get(array $params = []): array
     {
         $result = $this->connection()->get($this->getEndpoint(), $params);
 
@@ -34,7 +34,7 @@ trait FindAll
      * @throws ApiException
      * @throws GuzzleException
      */
-    public function getAll($params = [])
+    public function getAll(array $params = []): array
     {
         $result = $this->connection()->get($this->getEndpoint(), $params, true);
 

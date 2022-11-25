@@ -16,7 +16,7 @@ trait Search
      * @throws ApiException
      * @throws GuzzleException
      */
-    public function search($query, $perPage = null, $page = null)
+    public function search($query, $perPage = null, $page = null): array
     {
         $result = $this->connection()->get($this->getEndpoint(), [
             'query'    => $query,
