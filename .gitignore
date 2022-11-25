@@ -35,7 +35,7 @@ Thumbs.db
 *.swp
 
 # GULP generated files #
-######################
+########################
 *.js.map
 *.css.map
 
@@ -62,9 +62,12 @@ _ide_helper_models.php
 npm-debug.log
 yarn-error.log
 
+# Config files #
+################
+.env
+
 # Laravel folders and files #
 #############################
-.env
 /public/build
 /public/css
 /public/favicon
@@ -76,3 +79,7 @@ yarn-error.log
 /public/storage
 /public/svg
 /storage/debugbar
+
+# Project folders and files #
+#############################
+/example
