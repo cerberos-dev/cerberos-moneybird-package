@@ -5,9 +5,6 @@ namespace Cerberos\Moneybird\Entities;
 use Cerberos\Moneybird\Actions\FindAll;
 use Cerberos\Moneybird\Model;
 
-/**
- * Class CustomField.
- */
 class CustomField extends Model
 {
     use FindAll;
@@ -15,7 +12,7 @@ class CustomField extends Model
     /**
      * @var array
      */
-    protected $fillable = [
+    protected array $fillable = [
         'id',
         'name',
         'source',
@@ -24,5 +21,5 @@ class CustomField extends Model
     /**
      * @var string
      */
-    protected $endpoint = 'custom_fields';
+    protected string $endpoint = 'custom_fields';
 }

@@ -8,9 +8,6 @@ use Cerberos\Moneybird\Actions\Removable;
 use Cerberos\Moneybird\Actions\Storable;
 use Cerberos\Moneybird\Model;
 
-/**
- * Class Identity.
- */
 class Identity extends Model
 {
     use FindAll, FindOne, Storable, Removable;
@@ -18,7 +15,7 @@ class Identity extends Model
     /**
      * @var array
      */
-    protected $fillable = [
+    protected array $fillable = [
         'id',
         'company_name',
         'city',
@@ -39,10 +36,10 @@ class Identity extends Model
     /**
      * @var string
      */
-    protected $endpoint = 'identities';
+    protected string $endpoint = 'identities';
 
     /**
      * @var string
      */
-    protected $namespace = 'identity';
+    protected string $namespace = 'identity';
 }

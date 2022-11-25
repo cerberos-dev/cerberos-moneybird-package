@@ -3,6 +3,7 @@
 namespace Cerberos\Moneybird\Entities;
 
 use Cerberos\Exceptions\ApiException;
+use Cerberos\Exceptions\TooManyRequestsException;
 use Cerberos\Moneybird\Actions\Attachment;
 use Cerberos\Moneybird\Actions\Downloadable;
 use Cerberos\Moneybird\Actions\Filterable;
@@ -24,7 +25,7 @@ class SalesInvoice extends Model
     /**
      * @var array
      */
-    protected $fillable = [
+    protected array $fillable = [
         'id',
         'administration_id',
         'contact_id',
@@ -81,24 +82,24 @@ class SalesInvoice extends Model
     /**
      * @var string
      */
-    protected $endpoint = 'sales_invoices';
+    protected string $endpoint = 'sales_invoices';
 
     /**
      * @var string
      */
-    protected $namespace = 'sales_invoice';
+    protected string $namespace = 'sales_invoice';
 
     /**
      * @var array
      */
-    protected $singleNestedEntities = [
+    protected array $singleNestedEntities = [
         'contact' => Contact::class,
     ];
 
     /**
      * @var array
      */
-    protected $multipleNestedEntities = [
+    protected array $multipleNestedEntities = [
         'custom_fields' => [
             'entity' => SalesInvoiceCustomField::class,
             'type'   => self::NESTING_TYPE_ARRAY_OF_OBJECTS,
@@ -128,13 +129,13 @@ class SalesInvoice extends Model
     /**
      * Instruct Moneybird to send the invoice to the contact.
      *
-     * @param string|SendInvoiceOptions $deliveryMethodOrOptions
+     * @param $deliveryMethodOrOptions
      *
      * @return $this
      * @throws ApiException
      * @throws GuzzleException
      */
-    public function sendInvoice($deliveryMethodOrOptions = SendInvoiceOptions::METHOD_EMAIL)
+    public function sendInvoice($deliveryMethodOrOptions = SendInvoiceOptions::METHOD_EMAIL): static
     {
         if (is_string($deliveryMethodOrOptions)) {
             $options = new SendInvoiceOptions($deliveryMethodOrOptions);
@@ -146,6 +147,7 @@ class SalesInvoice extends Model
 
         if (!$options instanceof SendInvoiceOptions) {
             $options = is_object($options) ? get_class($options) : gettype($options);
+
             throw new InvalidArgumentException("Expected string or options instance. Received: '$options'");
         }
 
@@ -163,14 +165,14 @@ class SalesInvoice extends Model
     /**
      * Find SalesInvoice by invoice_id.
      *
-     * @param string|int $invoiceId
+     * @param int|string $invoiceId
      *
      * @return static
      *
      * @throws ApiException
      * @throws GuzzleException
      */
-    public function findByInvoiceId($invoiceId)
+    public function findByInvoiceId(int|string $invoiceId): static
     {
         $result = $this->connection()->get($this->getEndpoint() . '/find_by_invoice_id/' . urlencode($invoiceId));
 
@@ -187,7 +189,7 @@ class SalesInvoice extends Model
      * @throws ApiException
      * @throws GuzzleException
      */
-    public function registerPayment(SalesInvoicePayment $salesInvoicePayment)
+    public function registerPayment(SalesInvoicePayment $salesInvoicePayment): static
     {
         if (!isset($salesInvoicePayment->payment_date)) {
             throw new ApiException('Required [payment_date] is missing');
@@ -215,7 +217,7 @@ class SalesInvoice extends Model
      * @throws ApiException
      * @throws GuzzleException
      */
-    public function deletePayment(SalesInvoicePayment $salesInvoicePayment)
+    public function deletePayment(SalesInvoicePayment $salesInvoicePayment): static
     {
         if (!isset($salesInvoicePayment->id)) {
             throw new ApiException('Required [id] is missing');
@@ -232,8 +234,9 @@ class SalesInvoice extends Model
      * @return SalesInvoice
      *
      * @throws ApiException
+     * @throws GuzzleException
      */
-    public function duplicateToCreditInvoice()
+    public function duplicateToCreditInvoice(): SalesInvoice
     {
         $response = $this->connection()->patch(
             $this->getEndpoint() . '/' . $this->id . '/duplicate_creditinvoice',
@@ -249,8 +252,9 @@ class SalesInvoice extends Model
      * @return SalesInvoice
      *
      * @throws ApiException
+     * @throws GuzzleException
      */
-    public function registerPaymentForCreditInvoice()
+    public function registerPaymentForCreditInvoice(): SalesInvoice
     {
         $response = $this->connection()->patch(
             $this->getEndpoint() . '/' . $this->id . '/register_payment_creditinvoice',
@@ -266,8 +270,9 @@ class SalesInvoice extends Model
      * @return bool
      *
      * @throws ApiException
+     * @throws GuzzleException
      */
-    public function pauseWorkflow()
+    public function pauseWorkflow(): bool
     {
         try {
             $this->connection()->post($this->endpoint . '/' . $this->id . '/pause', json_encode([]));
@@ -288,8 +293,9 @@ class SalesInvoice extends Model
      * @return bool
      *
      * @throws ApiException
+     * @throws GuzzleException
      */
-    public function resumeWorkflow()
+    public function resumeWorkflow(): bool
     {
         try {
             $this->connection()->post($this->endpoint . '/' . $this->id . '/resume', json_encode([]));
@@ -309,9 +315,10 @@ class SalesInvoice extends Model
      *
      * @return string PDF file data
      *
-     * @throws ApiException
+     * @throws GuzzleException
+     * @throws TooManyRequestsException
      */
-    public function downloadUbl()
+    public function downloadUbl(): string
     {
         $response = $this->connection()->download($this->getEndpoint() . '/' . urlencode($this->id) . '/download_ubl');
 
@@ -323,9 +330,10 @@ class SalesInvoice extends Model
      *
      * @return string PDF file data
      *
-     * @throws ApiException
+     * @throws GuzzleException
+     * @throws TooManyRequestsException
      */
-    public function downloadPackageSlip()
+    public function downloadPackageSlip(): string
     {
         $response = $this->connection()->download($this->getEndpoint() . '/' . urlencode($this->id) . '/download_packing_slip_pdf');
 

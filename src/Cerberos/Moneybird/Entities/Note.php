@@ -4,20 +4,12 @@ namespace Cerberos\Moneybird\Entities;
 
 use Cerberos\Moneybird\Model;
 
-/**
- * Class Note.
- *
- * @property string $id
- * @property string $note
- * @property bool   $todo
- * @property string $assignee_id
- */
 class Note extends Model
 {
     /**
      * @var array
      */
-    protected $fillable = [
+    protected array $fillable = [
         'id',
         'note',
         'todo',
@@ -27,5 +19,5 @@ class Note extends Model
     /**
      * @var string
      */
-    protected $namespace = 'note';
+    protected string $namespace = 'note';
 }

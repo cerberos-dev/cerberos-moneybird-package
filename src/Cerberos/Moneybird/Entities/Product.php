@@ -2,17 +2,15 @@
 
 namespace Cerberos\Moneybird\Entities;
 
+use Cerberos\Exceptions\ApiException;
 use Cerberos\Moneybird\Actions\FindAll;
 use Cerberos\Moneybird\Actions\FindOne;
 use Cerberos\Moneybird\Actions\Removable;
 use Cerberos\Moneybird\Actions\Search;
 use Cerberos\Moneybird\Actions\Storable;
-use Cerberos\Moneybird\Exceptions\ApiException;
 use Cerberos\Moneybird\Model;
+use GuzzleHttp\Exception\GuzzleException;
 
-/**
- * Class Product.
- */
 class Product extends Model
 {
     use Search, FindAll, FindOne, Storable, Removable;
@@ -20,7 +18,7 @@ class Product extends Model
     /**
      * @var array
      */
-    protected $fillable = [
+    protected array $fillable = [
         'id',
         'title',
         'description',
@@ -41,21 +39,21 @@ class Product extends Model
     /**
      * @var string
      */
-    protected $endpoint = 'products';
+    protected string $endpoint = 'products';
 
     /**
      * @var string
      */
-    protected $namespace = 'product';
+    protected string $namespace = 'product';
 
     /**
-     * @param string|int $identifier
+     * @param int|string $identifier
      *
-     * @return static
-     *
+     * @return Product
      * @throws ApiException
+     * @throws GuzzleException
      */
-    public function findByIdentifier($identifier)
+    public function findByIdentifier(int|string $identifier): Product
     {
         $result = $this->connection()->get($this->getEndpoint() . '/identifier/' . urlencode($identifier));
 

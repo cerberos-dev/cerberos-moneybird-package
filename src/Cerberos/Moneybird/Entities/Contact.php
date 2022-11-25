@@ -2,6 +2,7 @@
 
 namespace Cerberos\Moneybird\Entities;
 
+use Cerberos\Exceptions\ApiException;
 use Cerberos\Moneybird\Actions\Filterable;
 use Cerberos\Moneybird\Actions\FindAll;
 use Cerberos\Moneybird\Actions\FindOne;
@@ -10,16 +11,9 @@ use Cerberos\Moneybird\Actions\Removable;
 use Cerberos\Moneybird\Actions\Search;
 use Cerberos\Moneybird\Actions\Storable;
 use Cerberos\Moneybird\Actions\Synchronizable;
-use Cerberos\Moneybird\Exceptions\ApiException;
 use Cerberos\Moneybird\Model;
+use GuzzleHttp\Exception\GuzzleException;
 
-/**
- * Class Contact.
- *
- * @property string               $id
- * @property ContactCustomField[] $custom_fields
- * @property ContactPeople[]      $contact_people
- */
 class Contact extends Model
 {
     use Search, FindAll, FindOne, Storable, Removable, Filterable, Synchronizable, Noteable;
@@ -27,7 +21,7 @@ class Contact extends Model
     /**
      * @var array
      */
-    protected $fillable = [
+    protected array $fillable = [
         'id',
         'company_name',
         'firstname',
@@ -74,22 +68,22 @@ class Contact extends Model
     /**
      * @var string
      */
-    protected $endpoint = 'contacts';
+    protected string $endpoint = 'contacts';
 
     /**
      * @var string
      */
-    protected $namespace = 'contact';
+    protected string $namespace = 'contact';
 
     /**
      * @var string
      */
-    protected $filter_endpoint = 'contacts/filter';
+    protected string $filterEndpoint = 'contacts/filter';
 
     /**
      * @var array
      */
-    protected $multipleNestedEntities = [
+    protected array $multipleNestedEntities = [
         'custom_fields'  => [
             'entity' => ContactCustomField::class,
             'type'   => self::NESTING_TYPE_NESTED_OBJECTS,
@@ -101,13 +95,13 @@ class Contact extends Model
     ];
 
     /**
-     * @param string|int $customerId
+     * @param int|string $customerId
      *
-     * @return static
-     *
+     * @return Contact
      * @throws ApiException
+     * @throws GuzzleException
      */
-    public function findByCustomerId($customerId)
+    public function findByCustomerId(int|string $customerId): Contact
     {
         $result = $this->connection()->get($this->getEndpoint() . '/customer_id/' . urlencode($customerId));
 

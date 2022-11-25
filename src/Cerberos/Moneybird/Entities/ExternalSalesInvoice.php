@@ -13,12 +13,6 @@ use Cerberos\Moneybird\Actions\Synchronizable;
 use Cerberos\Moneybird\Connection;
 use Cerberos\Moneybird\Model;
 
-/**
- * Class ExternalSalesInvoice.
- *
- * @property string  $id
- * @property Contact $contact
- */
 class ExternalSalesInvoice extends Model
 {
     use FindAll, FindOne, Storable, Removable, Filterable, Downloadable, Synchronizable, Attachment;
@@ -26,7 +20,7 @@ class ExternalSalesInvoice extends Model
     /**
      * @var array
      */
-    protected $fillable = [
+    protected array $fillable = [
         'id',
         'contact_id',
         'reference',
@@ -58,24 +52,24 @@ class ExternalSalesInvoice extends Model
     /**
      * @var string
      */
-    protected $endpoint = 'external_sales_invoices';
+    protected string $endpoint = 'external_sales_invoices';
 
     /**
      * @var string
      */
-    protected $namespace = 'external_sales_invoice';
+    protected string $namespace = 'external_sales_invoice';
 
     /**
      * @var array
      */
-    protected $singleNestedEntities = [
+    protected array $singleNestedEntities = [
         'contact' => Contact::class,
     ];
 
     /**
      * @var array
      */
-    protected $multipleNestedEntities = [
+    protected array $multipleNestedEntities = [
         'details'  => [
             'entity' => ExternalSalesInvoiceDetail::class,
             'type'   => self::NESTING_TYPE_ARRAY_OF_OBJECTS,
@@ -86,6 +80,10 @@ class ExternalSalesInvoice extends Model
         ],
     ];
 
+    /**
+     * @param Connection $connection
+     * @param array      $attributes
+     */
     public function __construct(Connection $connection, array $attributes = [])
     {
         parent::__construct($connection, $attributes);

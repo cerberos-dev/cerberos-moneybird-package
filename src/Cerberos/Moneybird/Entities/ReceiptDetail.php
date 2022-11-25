@@ -4,15 +4,12 @@ namespace Cerberos\Moneybird\Entities;
 
 use Cerberos\Moneybird\Model;
 
-/**
- * Class ReceiptDetail.
- */
 class ReceiptDetail extends Model
 {
     /**
      * @var array
      */
-    protected $fillable = [
+    protected array $fillable = [
         'id',
         'description',
         'period',

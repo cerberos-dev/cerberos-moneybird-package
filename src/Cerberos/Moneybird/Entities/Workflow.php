@@ -12,7 +12,7 @@ class Workflow extends Model
     /**
      * @var array
      */
-    protected $fillable = [
+    protected array $fillable = [
         'id',
         'type',
         'name',
@@ -28,5 +28,5 @@ class Workflow extends Model
     /**
      * @var string
      */
-    protected $endpoint = 'workflows';
+    protected string $endpoint = 'workflows';
 }
