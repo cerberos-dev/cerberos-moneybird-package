@@ -2,6 +2,7 @@
 
 namespace Cerberos\Moneybird\Entities;
 
+use Cerberos\Exceptions\ApiException;
 use Cerberos\Moneybird\Actions\Downloadable;
 use Cerberos\Moneybird\Actions\Filterable;
 use Cerberos\Moneybird\Actions\FindAll;
@@ -12,16 +13,9 @@ use Cerberos\Moneybird\Actions\Storable;
 use Cerberos\Moneybird\Actions\Synchronizable;
 use Cerberos\Moneybird\Entities\SalesInvoice\SendInvoiceOptions;
 use Cerberos\Moneybird\Model;
+use GuzzleHttp\Exception\GuzzleException;
 use InvalidArgumentException;
 
-/**
- * Class Contact.
- *
- * @property int    $id
- * @property string $company_name
- * @property string $first_name
- * @property string $last_name
- */
 class Estimate extends Model
 {
     use FindAll, FindOne, Storable, Removable, Synchronizable, Filterable, Downloadable, Noteable;
@@ -29,7 +23,7 @@ class Estimate extends Model
     /**
      * @var array
      */
-    protected $fillable = [
+    protected array $fillable = [
         'id',
         'administration_id',
         'contact_id',
@@ -79,17 +73,17 @@ class Estimate extends Model
     /**
      * @var string
      */
-    protected $endpoint = 'estimates';
+    protected string $endpoint = 'estimates';
 
     /**
      * @var string
      */
-    protected $namespace = 'estimate';
+    protected string $namespace = 'estimate';
 
     /**
      * @var array
      */
-    protected $multipleNestedEntities = [
+    protected array $multipleNestedEntities = [
         'custom_fields' => [
             'entity' => SalesInvoiceCustomField::class,
             'type'   => self::NESTING_TYPE_ARRAY_OF_OBJECTS,
@@ -115,13 +109,13 @@ class Estimate extends Model
     /**
      * Instruct Moneybird to send the estimate to the contact.
      *
-     * @param string|SendInvoiceOptions $deliveryMethodOrOptions
+     * @param SendInvoiceOptions|string $deliveryMethodOrOptions
      *
      * @return $this
-     *
      * @throws ApiException
+     * @throws GuzzleException
      */
-    public function sendEstimate($deliveryMethodOrOptions = SendInvoiceOptions::METHOD_EMAIL)
+    public function sendEstimate(SendInvoiceOptions|string $deliveryMethodOrOptions = SendInvoiceOptions::METHOD_EMAIL): static
     {
         if (is_string($deliveryMethodOrOptions)) {
             $options = new SendInvoiceOptions($deliveryMethodOrOptions);

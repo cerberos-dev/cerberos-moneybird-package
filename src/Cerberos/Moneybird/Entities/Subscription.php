@@ -16,7 +16,7 @@ class Subscription extends Model
     /**
      * @var array
      */
-    protected $fillable = [
+    protected array $fillable = [
         'id',
         'start_date',
         'product_id',
@@ -31,10 +31,10 @@ class Subscription extends Model
     /**
      * @var string
      */
-    protected $endpoint = 'subscriptions';
+    protected string $endpoint = 'subscriptions';
 
     /**
      * @var string
      */
-    protected $namespace = 'subscription';
+    protected string $namespace = 'subscription';
 }

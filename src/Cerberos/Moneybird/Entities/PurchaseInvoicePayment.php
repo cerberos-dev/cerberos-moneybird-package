@@ -2,12 +2,11 @@
 
 namespace Cerberos\Moneybird\Entities;
 
+use Cerberos\Exceptions\ApiException;
+use Cerberos\Exceptions\TooManyRequestsException;
 use Cerberos\Moneybird\Entities\Generic\InvoicePayment;
-use Cerberos\Moneybird\Exceptions\ApiException;
+use GuzzleHttp\Exception\GuzzleException;
 
-/**
- * Class SalesInvoicePayment.
- */
 class PurchaseInvoicePayment extends InvoicePayment
 {
     /**
@@ -16,8 +15,10 @@ class PurchaseInvoicePayment extends InvoicePayment
      * @return mixed
      *
      * @throws ApiException
+     * @throws TooManyRequestsException
+     * @throws GuzzleException
      */
-    public function delete()
+    public function delete(): mixed
     {
         return $this->connection()->delete('/documents/purchase_invoices/' . urlencode($this->invoice_id) . '/payments/' . urlencode($this->id));
     }

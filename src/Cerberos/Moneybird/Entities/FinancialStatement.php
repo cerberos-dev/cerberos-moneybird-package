@@ -6,9 +6,6 @@ use Cerberos\Moneybird\Actions\Removable;
 use Cerberos\Moneybird\Actions\Storable;
 use Cerberos\Moneybird\Model;
 
-/**
- * Class FinancialStatement.
- */
 class FinancialStatement extends Model
 {
     use Storable, Removable;
@@ -16,7 +13,7 @@ class FinancialStatement extends Model
     /**
      * @var array
      */
-    protected $fillable = [
+    protected array $fillable = [
         'id',
         'financial_account_id',
         'reference',
@@ -30,17 +27,17 @@ class FinancialStatement extends Model
     /**
      * @var string
      */
-    protected $endpoint = 'financial_statements';
+    protected string $endpoint = 'financial_statements';
 
     /**
      * @var string
      */
-    protected $namespace = 'financial_statement';
+    protected string $namespace = 'financial_statement';
 
     /**
      * @var array
      */
-    protected $multipleNestedEntities = [
+    protected array $multipleNestedEntities = [
         'financial_mutations' => [
             'entity' => FinancialMutation::class,
             'type'   => self::NESTING_TYPE_ARRAY_OF_OBJECTS,

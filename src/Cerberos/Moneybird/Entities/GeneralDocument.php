@@ -10,9 +10,6 @@ use Cerberos\Moneybird\Actions\Storable;
 use Cerberos\Moneybird\Actions\Synchronizable;
 use Cerberos\Moneybird\Model;
 
-/**
- * Class GeneralDocument.
- */
 class GeneralDocument extends Model
 {
     use FindAll, FindOne, Storable, Removable, Synchronizable, Noteable;
@@ -20,7 +17,7 @@ class GeneralDocument extends Model
     /**
      * @var array
      */
-    protected $fillable = [
+    protected array $fillable = [
         'id',
         'contact_id',
         'reference',
@@ -38,10 +35,10 @@ class GeneralDocument extends Model
     /**
      * @var string
      */
-    protected $endpoint = 'documents/general_documents';
+    protected string $endpoint = 'documents/general_documents';
 
     /**
      * @var string
      */
-    protected $namespace = 'general_document';
+    protected string $namespace = 'general_document';
 }

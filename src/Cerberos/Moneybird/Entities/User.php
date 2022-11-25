@@ -12,7 +12,7 @@ class User extends Model
     /**
      * @var array
      */
-    protected $fillable = [
+    protected array $fillable = [
         'id',
         'name',
         'created_at',
@@ -27,5 +27,5 @@ class User extends Model
     /**
      * @var string
      */
-    protected $endpoint = 'users';
+    protected string $endpoint = 'users';
 }

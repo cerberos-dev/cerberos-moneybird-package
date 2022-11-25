@@ -9,9 +9,6 @@ use Cerberos\Moneybird\Actions\Removable;
 use Cerberos\Moneybird\Actions\Storable;
 use Cerberos\Moneybird\Model;
 
-/**
- * Class GeneralJournalDocument.
- */
 class GeneralJournalDocument extends Model
 {
     use FindAll, FindOne, Storable, Removable, Noteable;
@@ -19,7 +16,7 @@ class GeneralJournalDocument extends Model
     /**
      * @var array
      */
-    protected $fillable = [
+    protected array $fillable = [
         'id',
         'reference',
         'date',
@@ -33,17 +30,17 @@ class GeneralJournalDocument extends Model
     /**
      * @var string
      */
-    protected $endpoint = 'documents/general_journal_documents';
+    protected string $endpoint = 'documents/general_journal_documents';
 
     /**
      * @var string
      */
-    protected $namespace = 'general_journal_document';
+    protected string $namespace = 'general_journal_document';
 
     /**
      * @var array
      */
-    protected $multipleNestedEntities = [
+    protected array $multipleNestedEntities = [
         'general_journal_document_entries' => [
             'entity' => GeneralJournalDocumentEntry::class,
             'type'   => self::NESTING_TYPE_ARRAY_OF_OBJECTS,

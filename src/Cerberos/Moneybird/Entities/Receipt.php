@@ -2,18 +2,16 @@
 
 namespace Cerberos\Moneybird\Entities;
 
+use Cerberos\Exceptions\ApiException;
 use Cerberos\Moneybird\Actions\Attachment;
 use Cerberos\Moneybird\Actions\FindAll;
 use Cerberos\Moneybird\Actions\FindOne;
 use Cerberos\Moneybird\Actions\Noteable;
 use Cerberos\Moneybird\Actions\Removable;
 use Cerberos\Moneybird\Actions\Storable;
-use Cerberos\Moneybird\Exceptions\ApiException;
 use Cerberos\Moneybird\Model;
+use GuzzleHttp\Exception\GuzzleException;
 
-/**
- * Class Receipt.
- */
 class Receipt extends Model
 {
     use FindAll, FindOne, Storable, Removable, Attachment, Noteable;
@@ -21,7 +19,7 @@ class Receipt extends Model
     /**
      * @var array
      */
-    protected $fillable = [
+    protected array $fillable = [
         'id',
         'contact_id',
         'reference',
@@ -51,17 +49,17 @@ class Receipt extends Model
     /**
      * @var string
      */
-    protected $endpoint = 'documents/receipts';
+    protected string $endpoint = 'documents/receipts';
 
     /**
      * @var string
      */
-    protected $namespace = 'receipt';
+    protected string $namespace = 'receipt';
 
     /**
      * @var array
      */
-    protected $multipleNestedEntities = [
+    protected array $multipleNestedEntities = [
         'details' => [
             'entity' => ReceiptDetail::class,
             'type'   => self::NESTING_TYPE_ARRAY_OF_OBJECTS,
@@ -76,8 +74,9 @@ class Receipt extends Model
      * @return $this
      *
      * @throws ApiException
+     * @throws GuzzleException
      */
-    public function registerPayment(ReceiptPayment $receiptPayment)
+    public function registerPayment(ReceiptPayment $receiptPayment): static
     {
         if (!isset($receiptPayment->payment_date)) {
             throw new ApiException('Required [payment_date] is missing');

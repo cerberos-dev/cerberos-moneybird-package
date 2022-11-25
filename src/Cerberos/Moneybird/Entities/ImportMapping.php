@@ -6,9 +6,6 @@ use Cerberos\Moneybird\Actions\FindAll;
 use Cerberos\Moneybird\Actions\FindOne;
 use Cerberos\Moneybird\Model;
 
-/**
- * Class ImportMapping.
- */
 class ImportMapping extends Model
 {
     use FindAll, FindOne;
@@ -16,12 +13,12 @@ class ImportMapping extends Model
     /**
      * @var string|null
      */
-    protected $type;
+    protected ?string $type;
 
     /**
      * @var array
      */
-    protected $fillable = [
+    protected array $fillable = [
         'administration_id',
         'entity_type',
         'old_id',
@@ -31,7 +28,7 @@ class ImportMapping extends Model
     /**
      * @var string
      */
-    protected $endpoint = 'import_mappings';
+    protected string $endpoint = 'import_mappings';
 
     /**
      * @param string $type The type of import mapping to request
@@ -42,14 +39,17 @@ class ImportMapping extends Model
      *
      * @return $this
      */
-    public function setType($type)
+    public function setType(string $type): static
     {
         $this->type = $type;
 
         return $this;
     }
 
-    public function getEndpoint()
+    /**
+     * @return string
+     */
+    public function getEndpoint(): string
     {
         if (null === $this->type) {
             return $this->endpoint;

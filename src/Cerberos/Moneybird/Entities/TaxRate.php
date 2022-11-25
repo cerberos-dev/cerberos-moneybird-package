@@ -12,7 +12,7 @@ class TaxRate extends Model
     /**
      * @var array
      */
-    protected $fillable = [
+    protected array $fillable = [
         'id',
         'name',
         'percentage',
@@ -26,5 +26,5 @@ class TaxRate extends Model
     /**
      * @var string
      */
-    protected $endpoint = 'tax_rates';
+    protected string $endpoint = 'tax_rates';
 }
