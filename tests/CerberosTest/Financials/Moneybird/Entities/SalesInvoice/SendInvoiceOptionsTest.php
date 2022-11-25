@@ -2,11 +2,11 @@
 
 namespace PicqerTest\Financials\Moneybird\Entities\SalesInvoice;
 
+use Cerberos\Moneybird\Entities\SalesInvoice\SendInvoiceOptions;
 use DateTime;
 use InvalidArgumentException;
 use JsonSerializable;
 use PHPUnit\Framework\TestCase;
-use Cerberos\Moneybird\Entities\SalesInvoice\SendInvoiceOptions;
 
 class SendInvoiceOptionsTest extends TestCase
 {
@@ -78,7 +78,9 @@ class SendInvoiceOptionsTest extends TestCase
         self::assertEquals('test@foo.com', $json['email_address']);
 
         $omittedKeys = [
-            'sending_scheduled', 'email_message', 'invoice_date',
+            'sending_scheduled',
+            'email_message',
+            'invoice_date',
             'mergeable',
         ];
         foreach ($omittedKeys as $key) {

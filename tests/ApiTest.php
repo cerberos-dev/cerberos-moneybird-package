@@ -2,10 +2,13 @@
 
 namespace Cerberos\Tests;
 
-use PHPUnit\Framework\MockObject\MockObject;
-use PHPUnit\Framework\TestCase;
+use Cerberos\Exceptions\ApiException;
+use Cerberos\Exceptions\TooManyRequestsException;
 use Cerberos\Moneybird\Connection;
 use Cerberos\Moneybird\Moneybird;
+use GuzzleHttp\Exception\GuzzleException;
+use PHPUnit\Framework\MockObject\MockObject;
+use PHPUnit\Framework\TestCase;
 
 /**
  * Class ApiTest.
@@ -58,6 +61,7 @@ class ApiTest extends TestCase
     public function testSetAdministrationIdSet()
     {
         $administrationId = 123456789;
+
         $this->mockedConnection->expects($this->once())
             ->method('setAdministrationId')
             ->with($administrationId);
@@ -66,7 +70,9 @@ class ApiTest extends TestCase
     }
 
     /**
-     * @throws \Cerberos\Moneybird\Exceptions\ApiException
+     * @throws ApiException
+     * @throws TooManyRequestsException
+     * @throws GuzzleException
      */
     public function testFindAllWebHooksTriggersHttpGet()
     {
@@ -83,7 +89,8 @@ class ApiTest extends TestCase
     }
 
     /**
-     * @throws \Cerberos\Moneybird\Exceptions\ApiException
+     * @throws ApiException
+     * @throws GuzzleException
      */
     public function testStoreWebHookTriggersHttpPost()
     {
@@ -99,9 +106,6 @@ class ApiTest extends TestCase
         $webHook->save();
     }
 
-    /**
-     * @throws \Cerberos\Moneybird\Exceptions\ApiException
-     */
     public function testFinancialMutationLinkToBooking()
     {
         $financialMutationId = 1;
@@ -110,8 +114,8 @@ class ApiTest extends TestCase
         $priceBase = 100.00;
         $parameters = [
             'booking_type' => $bookingType,
-            'booking_id' => $bookingId,
-            'price_base' => $priceBase,
+            'booking_id'   => $bookingId,
+            'price_base'   => $priceBase,
         ];
         $httpResponseCode = 200;
 
@@ -122,12 +126,10 @@ class ApiTest extends TestCase
 
         $financialMutation = $this->client->financialMutation();
         $financialMutation->id = $financialMutationId;
+
         $this->assertEquals($httpResponseCode, $financialMutation->linkToBooking($bookingType, $bookingId, $priceBase));
     }
 
-    /**
-     * @throws \Cerberos\Moneybird\Exceptions\ApiException
-     */
     public function testFinancialMutationUnlinkFromBooking()
     {
         $financialMutationId = 1;
@@ -135,7 +137,7 @@ class ApiTest extends TestCase
         $bookingId = 100;
         $parameters = [
             'booking_type' => $bookingType,
-            'booking_id' => $bookingId,
+            'booking_id'   => $bookingId,
         ];
         $response = [];
 
@@ -146,6 +148,7 @@ class ApiTest extends TestCase
 
         $financialMutation = $this->client->financialMutation();
         $financialMutation->id = $financialMutationId;
+
         $this->assertEquals($response, $financialMutation->unlinkFromBooking($bookingType, $bookingId));
     }
 }

@@ -2,7 +2,6 @@
 
 namespace Cerberos\Tests;
 
-use PHPUnit\Framework\TestCase;
 use Cerberos\Moneybird\Entities\Administration;
 use Cerberos\Moneybird\Entities\Contact;
 use Cerberos\Moneybird\Entities\ContactCustomField;
@@ -44,6 +43,8 @@ use Cerberos\Moneybird\Entities\User;
 use Cerberos\Moneybird\Entities\Webhook;
 use Cerberos\Moneybird\Entities\Workflow;
 use Cerberos\Moneybird\Moneybird;
+use PHPUnit\Framework\TestCase;
+use ReflectionClass;
 
 /**
  * Class EntityTest.
@@ -255,16 +256,19 @@ class EntityTest extends TestCase
 
     public function testMoneybirdClass()
     {
-        $reflectionClass = new \ReflectionClass(Moneybird::class);
+        $reflectionClass = new ReflectionClass(Moneybird::class);
 
         $this->assertTrue($reflectionClass->isInstantiable());
         $this->assertTrue($reflectionClass->hasProperty('connection'));
         $this->assertEquals('Cerberos\Moneybird', $reflectionClass->getNamespaceName());
     }
 
+    /**
+     * @param $entityName
+     */
     private function performEntityTest($entityName)
     {
-        $reflectionClass = new \ReflectionClass($entityName);
+        $reflectionClass = new ReflectionClass($entityName);
 
         $this->assertTrue($reflectionClass->isInstantiable());
         $this->assertTrue($reflectionClass->hasProperty('fillable'));
