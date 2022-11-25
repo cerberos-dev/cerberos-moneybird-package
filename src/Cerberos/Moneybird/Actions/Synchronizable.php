@@ -12,12 +12,11 @@ trait Synchronizable
     /**
      * @param array $filters
      *
-     * @return mixed
-     *
+     * @return array
      * @throws ApiException
      * @throws GuzzleException
      */
-    public function listVersions(array $filters = [])
+    public function listVersions(array $filters = []): array
     {
         $filter = [];
 
@@ -38,12 +37,11 @@ trait Synchronizable
     /**
      * @param array $ids
      *
-     * @return mixed
-     *
+     * @return array
      * @throws ApiException
      * @throws GuzzleException
      */
-    public function getVersions(array $ids)
+    public function getVersions(array $ids): array
     {
         $result = $this->connection()->post($this->getEndpoint() . '/synchronization', json_encode([
             'ids' => $ids,

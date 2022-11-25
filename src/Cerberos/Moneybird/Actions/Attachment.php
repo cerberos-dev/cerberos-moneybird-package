@@ -2,7 +2,8 @@
 
 namespace Cerberos\Moneybird\Actions;
 
-use Cerberos\Moneybird\Exceptions\ApiException;
+use Cerberos\Exceptions\ApiException;
+use GuzzleHttp\Exception\GuzzleException;
 
 /**
  * @property string $id
@@ -11,7 +12,10 @@ trait Attachment
 {
     use BaseTrait;
 
-    protected $attachmentPath = 'attachments';
+    /**
+     * @var string
+     */
+    protected string $attachmentPath = 'attachments';
 
     /**
      * Add an attachment to this invoice.
@@ -23,9 +27,9 @@ trait Attachment
      *
      * @return void
      *
-     * @throws ApiException
+     * @throws ApiException|GuzzleException
      */
-    public function addAttachment($filename, $contents)
+    public function addAttachment($filename, $contents): void
     {
         if (!isset($this->id)) {
             throw new ApiException('This method can only be used on existing records.');

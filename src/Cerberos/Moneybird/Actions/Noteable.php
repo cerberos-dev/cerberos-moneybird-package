@@ -16,11 +16,10 @@ trait Noteable
      * @param Note $note
      *
      * @return $this
-     *
      * @throws ApiException
      * @throws GuzzleException
      */
-    public function addNote(Note $note)
+    public function addNote(Note $note): static
     {
         $this->connection()->post(
             $this->getEndpoint() . '/' . urlencode($this->id) . '/notes',

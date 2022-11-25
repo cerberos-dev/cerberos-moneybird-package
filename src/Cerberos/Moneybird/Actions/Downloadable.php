@@ -14,7 +14,7 @@ trait Downloadable
      * @return string PDF file data
      * @throws GuzzleException
      */
-    public function download()
+    public function download(): string
     {
         $response = $this->connection()->download($this->getEndpoint() . '/' . urlencode($this->id) . '/download_pdf');
 

@@ -16,7 +16,7 @@ trait Filterable
      * @throws ApiException
      * @throws GuzzleException
      */
-    public function filter(array $filters)
+    public function filter(array $filters): array
     {
         $filterList = [];
         foreach ($filters as $key => $value) {
@@ -35,7 +35,7 @@ trait Filterable
      * @throws ApiException
      * @throws GuzzleException
      */
-    public function filterAll(array $filters)
+    public function filterAll(array $filters): array
     {
         $filterList = [];
         foreach ($filters as $key => $value) {
