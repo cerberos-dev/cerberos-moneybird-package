@@ -9,7 +9,7 @@ abstract class CustomField extends Model
     /**
      * @var array
      */
-    protected $fillable = [
+    protected array $fillable = [
         'id',
         'value',
     ];

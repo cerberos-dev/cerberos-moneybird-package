@@ -9,7 +9,7 @@ abstract class InvoicePayment extends Model
     /**
      * @var array
      */
-    protected $fillable = [
+    protected array $fillable = [
         'id',
         'invoice_type',
         'invoice_id',
@@ -31,5 +31,5 @@ abstract class InvoicePayment extends Model
     /**
      * @var string
      */
-    protected $namespace = 'payment';
+    protected string $namespace = 'payment';
 }
