@@ -1,6 +1,6 @@
 <?php
 
-namespace PicqerTest\Financials\Moneybird\Entities;
+namespace CerberosTest\Financials\Moneybird\Entities;
 
 use Cerberos\Exceptions\ApiException;
 use Cerberos\Moneybird\Connection;
@@ -59,6 +59,7 @@ class SalesInvoiceTest extends TestCase
     {
         try {
             $this->salesInvoice->sendInvoice(false);
+
             self::fail('Should have thrown exception');
         } catch (InvalidArgumentException $e) {
             $this->addToAssertionCount(1);
@@ -66,6 +67,7 @@ class SalesInvoiceTest extends TestCase
 
         try {
             $this->salesInvoice->sendInvoice(new stdClass());
+
             self::fail('Should have thrown exception');
         } catch (InvalidArgumentException $e) {
             $this->addToAssertionCount(1);

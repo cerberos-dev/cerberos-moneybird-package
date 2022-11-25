@@ -1,6 +1,6 @@
 <?php
 
-namespace PicqerTest\Financials\Moneybird\Entities\SalesInvoice;
+namespace CerberosTest\Financials\Moneybird\Entities\SalesInvoice;
 
 use Cerberos\Moneybird\Entities\SalesInvoice\SendInvoiceOptions;
 use DateTime;
@@ -10,7 +10,10 @@ use PHPUnit\Framework\TestCase;
 
 class SendInvoiceOptionsTest extends TestCase
 {
-    private $validMethods = [
+    /**
+     * @var array
+     */
+    private array $validMethods = [
         SendInvoiceOptions::METHOD_EMAIL,
         SendInvoiceOptions::METHOD_SIMPLER_INVOICING,
         SendInvoiceOptions::METHOD_POST,
@@ -19,8 +22,8 @@ class SendInvoiceOptionsTest extends TestCase
 
     public function testConstructorArguments()
     {
-        $options =
-            new SendInvoiceOptions(SendInvoiceOptions::METHOD_POST, 'my-email@foo.com', 'my message');
+        $options = new SendInvoiceOptions(SendInvoiceOptions::METHOD_POST, 'my-email@foo.com', 'my message');
+
         self::assertEquals(SendInvoiceOptions::METHOD_POST, $options->getMethod());
         self::assertEquals('my-email@foo.com', $options->getEmailAddress());
         self::assertEquals('my message', $options->getEmailMessage());
@@ -29,6 +32,7 @@ class SendInvoiceOptionsTest extends TestCase
     public function testDefaultMethodIsEmail()
     {
         $options = new SendInvoiceOptions();
+
         self::assertEquals(SendInvoiceOptions::METHOD_EMAIL, $options->getMethod());
     }
 
@@ -36,20 +40,21 @@ class SendInvoiceOptionsTest extends TestCase
     {
         try {
             new SendInvoiceOptions('some-invalid-method');
+
             self::fail('Should have thrown exception');
         } catch (InvalidArgumentException $e) {
             foreach ($this->validMethods as $validMethod) {
                 self::assertStringContainsString($validMethod, $e->getMessage());
             }
 
-            self::assertStringContainsString('some-invalid-method', $e->getMessage(),
-                'Did not provide which value is invalid');
+            self::assertStringContainsString('some-invalid-method', $e->getMessage(), 'Did not provide which value is invalid');
         }
     }
 
     public function testIsSerializable()
     {
         $options = new SendInvoiceOptions();
+
         self::assertInstanceOf(JsonSerializable::class, $options);
     }
 
@@ -61,6 +66,7 @@ class SendInvoiceOptionsTest extends TestCase
         $options->schedule(new DateTime('2018-01-01'));
 
         $json = $options->jsonSerialize();
+
         self::assertEquals(SendInvoiceOptions::METHOD_EMAIL, $json['delivery_method']);
         self::assertEquals(true, $json['sending_scheduled']);
         self::assertEquals(true, $json['mergeable']);
@@ -74,6 +80,7 @@ class SendInvoiceOptionsTest extends TestCase
         $options = new SendInvoiceOptions(null, 'test@foo.com');
 
         $json = $options->jsonSerialize();
+
         self::assertEquals(SendInvoiceOptions::METHOD_EMAIL, $json['delivery_method']);
         self::assertEquals('test@foo.com', $json['email_address']);
 
