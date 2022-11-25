@@ -5,58 +5,58 @@ namespace Cerberos\Moneybird;
 abstract class Model
 {
     const NESTING_TYPE_ARRAY_OF_OBJECTS = 0;
-    const NESTING_TYPE_NESTED_OBJECTS = 1;
-    const JSON_OPTIONS = JSON_FORCE_OBJECT;
+    const NESTING_TYPE_NESTED_OBJECTS   = 1;
+    const JSON_OPTIONS                  = JSON_FORCE_OBJECT;
 
     /**
      * @var Connection
      */
-    protected $connection;
+    protected Connection $connection;
 
     /**
      * @var array
      */
-    protected $attributes = [];
+    protected array $attributes = [];
 
     /**
      * @var array
      */
-    protected $attribute_changes = [];
+    protected array $attribute_changes = [];
 
     /**
      * @var bool
      */
-    protected $initializing = false;
+    protected bool $initializing = false;
 
     /**
      * @var string
      */
-    protected $endpoint = '';
+    protected string $endpoint = '';
 
     /**
      * @var array
      */
-    protected $fillable = [];
+    protected array $fillable = [];
 
     /**
      * @var string
      */
-    protected $filter_endpoint = '';
+    protected string $filterEndpoint = '';
 
     /**
      * @var string
      */
-    protected $primaryKey = 'id';
+    protected string $primaryKey = 'id';
 
     /**
      * @var string
      */
-    protected $namespace = '';
+    protected string $namespace = '';
 
     /**
      * @var array
      */
-    protected $singleNestedEntities = [];
+    protected array $singleNestedEntities = [];
 
     /**
      * Array containing the name of the attribute that contains nested objects as key and an array with the entity name
@@ -67,7 +67,7 @@ abstract class Model
      *
      * @var array
      */
-    protected $multipleNestedEntities = [];
+    protected array $multipleNestedEntities = [];
 
     /**
      * @param Connection $connection
@@ -76,13 +76,14 @@ abstract class Model
     public function __construct(Connection $connection, array $attributes = [])
     {
         $this->connection = $connection;
+
         $this->fill($attributes, false);
     }
 
     /**
      * @return Connection
      */
-    public function connection()
+    public function connection(): Connection
     {
         return $this->connection;
     }
@@ -90,7 +91,7 @@ abstract class Model
     /**
      * @return array
      */
-    public function attributes()
+    public function attributes(): array
     {
         return $this->attributes;
     }
@@ -98,7 +99,7 @@ abstract class Model
     /**
      * @return int[]|string[]
      */
-    public function getDirty()
+    public function getDirty(): array
     {
         return array_keys($this->attribute_changes);
     }
@@ -106,7 +107,7 @@ abstract class Model
     /**
      * @return array
      */
-    public function getDirtyValues()
+    public function getDirtyValues(): array
     {
         return $this->attribute_changes;
     }
@@ -116,7 +117,7 @@ abstract class Model
      *
      * @return bool
      */
-    public function isAttributeDirty($attributeName)
+    public function isAttributeDirty($attributeName): bool
     {
         if (array_key_exists($attributeName, $this->attribute_changes)) {
             return true;
@@ -128,7 +129,7 @@ abstract class Model
     /**
      * @return void
      */
-    public function clearDirty()
+    public function clearDirty(): void
     {
         $this->attribute_changes = [];
     }
@@ -163,7 +164,7 @@ abstract class Model
     /**
      * @return bool
      */
-    public function exists()
+    public function exists(): bool
     {
         if (!array_key_exists($this->primaryKey, $this->attributes)) {
             return false;
@@ -175,7 +176,7 @@ abstract class Model
     /**
      * @return false|string
      */
-    public function json()
+    public function json(): bool|string
     {
         $array = $this->getArrayWithNestedObjects();
 
@@ -185,7 +186,7 @@ abstract class Model
     /**
      * @return false|string
      */
-    public function jsonWithNamespace()
+    public function jsonWithNamespace(): bool|string
     {
         if ($this->namespace !== '') {
             return json_encode([$this->namespace => $this->getArrayWithNestedObjects()], static::JSON_OPTIONS);
@@ -199,7 +200,7 @@ abstract class Model
      *
      * @return $this
      */
-    public function makeFromResponse(array $response)
+    public function makeFromResponse(array $response): static
     {
         $entity = new static($this->connection);
         $entity->selfFromResponse($response);
@@ -212,13 +213,14 @@ abstract class Model
      *
      * @return $this
      */
-    public function selfFromResponse(array $response)
+    public function selfFromResponse(array $response): static
     {
         $this->fill($response, true);
 
         foreach ($this->getSingleNestedEntities() as $key => $value) {
             if (isset($response[$key])) {
                 $entityName = $value;
+
                 $this->$key = new $entityName($this->connection, $response[$key]);
             }
         }
@@ -226,8 +228,10 @@ abstract class Model
         foreach ($this->getMultipleNestedEntities() as $key => $value) {
             if (isset($response[$key])) {
                 $entityName = $value['entity'];
+
                 /** @var self $instantiatedEntity */
                 $instantiatedEntity = new $entityName($this->connection);
+
                 $this->$key = $instantiatedEntity->collectionFromResult($response[$key]);
             }
         }
@@ -240,7 +244,7 @@ abstract class Model
      *
      * @return array
      */
-    public function collectionFromResult(array $result)
+    public function collectionFromResult(array $result): array
     {
         if (count(array_filter(array_keys($result), 'is_string'))) {
             $result = [$result];
@@ -257,7 +261,7 @@ abstract class Model
     /**
      * @return array
      */
-    public function getSingleNestedEntities()
+    public function getSingleNestedEntities(): array
     {
         return $this->singleNestedEntities;
     }
@@ -265,7 +269,7 @@ abstract class Model
     /**
      * @return array
      */
-    public function getMultipleNestedEntities()
+    public function getMultipleNestedEntities(): array
     {
         return $this->multipleNestedEntities;
     }
@@ -287,7 +291,7 @@ abstract class Model
     /**
      * @return string
      */
-    public function getEndpoint()
+    public function getEndpoint(): string
     {
         return $this->endpoint;
     }
@@ -295,9 +299,9 @@ abstract class Model
     /**
      * @return string
      */
-    public function getFilterEndpoint()
+    public function getFilterEndpoint(): string
     {
-        return $this->filter_endpoint ?: $this->endpoint;
+        return $this->filterEndpoint ?: $this->endpoint;
     }
 
     /**
@@ -316,7 +320,7 @@ abstract class Model
      *
      * @return void
      */
-    protected function fill(array $attributes, $first_initialize)
+    protected function fill(array $attributes, $first_initialize): void
     {
         if ($first_initialize) {
             $this->enableFirstInitialize();
@@ -336,7 +340,7 @@ abstract class Model
     /**
      * @return void
      */
-    protected function enableFirstInitialize()
+    protected function enableFirstInitialize(): void
     {
         $this->initializing = true;
     }
@@ -344,7 +348,7 @@ abstract class Model
     /**
      * @return void
      */
-    protected function disableFirstInitialize()
+    protected function disableFirstInitialize(): void
     {
         $this->initializing = false;
     }
@@ -354,7 +358,7 @@ abstract class Model
      *
      * @return array
      */
-    protected function fillableFromArray(array $attributes)
+    protected function fillableFromArray(array $attributes): array
     {
         if (count($this->fillable) > 0) {
             return array_intersect_key($attributes, array_flip($this->fillable));
@@ -368,7 +372,7 @@ abstract class Model
      *
      * @return bool
      */
-    protected function isFillable($key)
+    protected function isFillable($key): bool
     {
         return in_array($key, $this->fillable, true);
     }
@@ -379,7 +383,7 @@ abstract class Model
      *
      * @return void
      */
-    protected function setAttribute($key, $value)
+    protected function setAttribute($key, $value): void
     {
         if (!isset($this->attribute_changes[$key])) {
             $from = null;
@@ -404,7 +408,7 @@ abstract class Model
      *
      * @return array
      */
-    private function getArrayWithNestedObjects($useAttributesAppend = true)
+    private function getArrayWithNestedObjects($useAttributesAppend = true): array
     {
         $result = [];
         $multipleNestedEntities = $this->getMultipleNestedEntities();
@@ -429,6 +433,7 @@ abstract class Model
                 }
 
                 $result[$attributeNameToUse] = [];
+
                 foreach ($attributeValue as $attributeEntity) {
                     $result[$attributeNameToUse][] = $attributeEntity->attributes;
                 }

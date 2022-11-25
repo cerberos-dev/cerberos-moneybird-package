@@ -19,68 +19,79 @@ class Connection
     /**
      * @var string
      */
-    protected $authorizationCode;
+    protected string $authorizationCode;
+
+    /**
+     * @var int|string
+     */
+    protected int|string $administrationId;
+
+    /**
+     * @var array Middlewares for the Guzzle 6 client
+     */
+    protected array $middleWares = [];
 
     /**
      * @var string
      */
-    protected $administrationId;
-    /**
-     * @var array Middlewares for the Guzzle 6 client
-     */
-    protected $middleWares = [];
+    private string $apiUrl = 'https://moneybird.com/api/v2';
+
     /**
      * @var string
      */
-    private $apiUrl = 'https://moneybird.com/api/v2';
+    private string $authUrl = 'https://moneybird.com/oauth/authorize';
+
     /**
      * @var string
      */
-    private $authUrl = 'https://moneybird.com/oauth/authorize';
+    private string $tokenUrl = 'https://moneybird.com/oauth/token';
+
     /**
-     * @var string
+     * @var int|string
      */
-    private $tokenUrl = 'https://moneybird.com/oauth/token';
+    private int|string $clientId;
+
     /**
-     * @var
+     * @var mixed
      */
-    private $clientId;
+    private mixed $clientSecret;
+
     /**
-     * @var
+     * @var mixed
      */
-    private $clientSecret;
+    private mixed $accessToken;
+
     /**
-     * @var
+     * @var mixed
      */
-    private $accessToken;
+    private mixed $refreshToken;
+
     /**
-     * @var
+     * @var mixed
      */
-    private $refreshToken;
+    private mixed $redirectUrl;
+
     /**
-     * @var
+     * @var Client|null
      */
-    private $redirectUrl;
-    /**
-     * @var Client
-     */
-    private $client;
+    private ?Client $client = null;
+
     /**
      * @var bool
      */
-    private $testing = false;
+    private bool $testing = false;
 
     /**
      * @var array
      */
-    private $scopes = [];
+    private array $scopes = [];
 
     /**
      * Insert a custom Guzzle client.
      *
      * @param Client $client
      */
-    public function setClient($client)
+    public function setClient($client): void
     {
         $this->client = $client;
     }
@@ -90,7 +101,7 @@ class Connection
      *
      * @param $middleWare
      */
-    public function insertMiddleWare($middleWare)
+    public function insertMiddleWare($middleWare): void
     {
         $this->middleWares[] = $middleWare;
     }
@@ -100,7 +111,7 @@ class Connection
      * @throws ApiException
      * @throws GuzzleException
      */
-    public function connect()
+    public function connect(): Client
     {
         // If access token is not set or token has expired, acquire new token
         if (empty($this->accessToken)) {
@@ -121,7 +132,7 @@ class Connection
      * @throws ApiException
      * @throws GuzzleException
      */
-    public function get($url, array $params = [], $fetchAll = false)
+    public function get(string $url, array $params = [], bool $fetchAll = false): mixed
     {
         try {
             $request = $this->createRequest('GET', $this->formatUrl($url, 'get'), null, $params);
@@ -149,7 +160,7 @@ class Connection
      * @throws ApiException
      * @throws GuzzleException
      */
-    public function post($url, $body)
+    public function post(string $url, string $body): mixed
     {
         try {
             $request = $this->createRequest('POST', $this->formatUrl($url, 'post'), $body);
@@ -169,7 +180,7 @@ class Connection
      * @throws ApiException
      * @throws GuzzleException
      */
-    public function patch($url, $body)
+    public function patch(string $url, string $body): mixed
     {
         try {
             $request = $this->createRequest('PATCH', $this->formatUrl($url, 'patch'), $body);
@@ -183,13 +194,14 @@ class Connection
 
     /**
      * @param string $url
-     * @param null   $body
+     * @param        $body
      *
      * @return mixed
      * @throws ApiException
      * @throws GuzzleException
+     * @throws TooManyRequestsException
      */
-    public function delete($url, $body = null)
+    public function delete(string $url, $body = null): mixed
     {
         try {
             $request = $this->createRequest('DELETE', $this->formatUrl($url, 'delete'), $body);
@@ -205,10 +217,11 @@ class Connection
      * @param string $url
      * @param array  $options
      *
-     * @return mixed
+     * @return ResponseInterface|void
      * @throws GuzzleException
+     * @throws TooManyRequestsException
      */
-    public function download($url, $options = [])
+    public function download(string $url, array $options = [])
     {
         try {
             $request = $this->createRequestNoJson('GET', $this->formatUrl($url, 'get'), null);
@@ -223,10 +236,11 @@ class Connection
      * @param string $url
      * @param array  $options
      *
-     * @return mixed
+     * @return mixed|void
      * @throws GuzzleException
+     * @throws TooManyRequestsException
      */
-    public function upload($url, $options)
+    public function upload(string $url, array $options)
     {
         try {
             $request = $this->createRequestNoJson('POST', $this->formatUrl($url, 'post'), null);
@@ -242,7 +256,7 @@ class Connection
     /**
      * @return string
      */
-    public function getAuthUrl()
+    public function getAuthUrl(): string
     {
         return $this->authUrl . '?' . http_build_query([
                 'client_id'     => $this->clientId,
@@ -253,25 +267,31 @@ class Connection
     }
 
     /**
-     * @param mixed $clientId
+     * @param int|string $clientId
+     *
+     * @return void
      */
-    public function setClientId($clientId)
+    public function setClientId(int|string $clientId): void
     {
         $this->clientId = $clientId;
     }
 
     /**
      * @param mixed $clientSecret
+     *
+     * @return void
      */
-    public function setClientSecret($clientSecret)
+    public function setClientSecret(mixed $clientSecret): void
     {
         $this->clientSecret = $clientSecret;
     }
 
     /**
-     * @param mixed $authorizationCode
+     * @param string $authorizationCode
+     *
+     * @return void
      */
-    public function setAuthorizationCode($authorizationCode)
+    public function setAuthorizationCode(string $authorizationCode): void
     {
         $this->authorizationCode = $authorizationCode;
     }
@@ -279,17 +299,20 @@ class Connection
     /**
      * @return void
      */
-    public function redirectForAuthorization()
+    public function redirectForAuthorization(): void
     {
         $authUrl = $this->getAuthUrl();
+
         header('Location: ' . $authUrl);
         exit;
     }
 
     /**
      * @param mixed $redirectUrl
+     *
+     * @return void
      */
-    public function setRedirectUrl($redirectUrl)
+    public function setRedirectUrl(mixed $redirectUrl): void
     {
         $this->redirectUrl = $redirectUrl;
     }
@@ -297,7 +320,7 @@ class Connection
     /**
      * @return bool
      */
-    public function needsAuthentication()
+    public function needsAuthentication(): bool
     {
         return empty($this->authorizationCode);
     }
@@ -305,7 +328,7 @@ class Connection
     /**
      * @return mixed
      */
-    public function getAccessToken()
+    public function getAccessToken(): mixed
     {
         return $this->accessToken;
     }
@@ -313,7 +336,7 @@ class Connection
     /**
      * @param mixed $accessToken
      */
-    public function setAccessToken($accessToken)
+    public function setAccessToken(mixed $accessToken): void
     {
         $this->accessToken = $accessToken;
     }
@@ -321,23 +344,25 @@ class Connection
     /**
      * @return mixed
      */
-    public function getRefreshToken()
+    public function getRefreshToken(): mixed
     {
         return $this->refreshToken;
     }
 
     /**
-     * @return mixed
+     * @return string
      */
-    public function getAdministrationId()
+    public function getAdministrationId(): string
     {
         return $this->administrationId;
     }
 
     /**
-     * @param mixed $administrationId
+     * @param int|string $administrationId
+     *
+     * @return void
      */
-    public function setAdministrationId($administrationId)
+    public function setAdministrationId(int|string $administrationId): void
     {
         $this->administrationId = $administrationId;
     }
@@ -345,9 +370,9 @@ class Connection
     /**
      * @param int|string $administrationId
      *
-     * @return static
+     * @return Connection
      */
-    public function withAdministrationId($administrationId)
+    public function withAdministrationId(int|string $administrationId): Connection
     {
         $clone = clone $this;
         $clone->administrationId = $administrationId;
@@ -356,9 +381,9 @@ class Connection
     }
 
     /**
-     * @return static
+     * @return Connection
      */
-    public function withoutAdministrationId()
+    public function withoutAdministrationId(): Connection
     {
         $clone = clone $this;
         $clone->administrationId = null;
@@ -369,7 +394,7 @@ class Connection
     /**
      * @return bool
      */
-    public function isTesting()
+    public function isTesting(): bool
     {
         return $this->testing;
     }
@@ -377,7 +402,7 @@ class Connection
     /**
      * @param bool $testing
      */
-    public function setTesting($testing)
+    public function setTesting(bool $testing): void
     {
         $this->testing = $testing;
     }
@@ -385,7 +410,7 @@ class Connection
     /**
      * @return string
      */
-    public function getTokenUrl()
+    public function getTokenUrl(): string
     {
         if ($this->testing) {
             return 'https://httpbin.org/post';
@@ -397,7 +422,7 @@ class Connection
     /**
      * @param array $scopes
      */
-    public function setScopes($scopes)
+    public function setScopes(array $scopes): void
     {
         $this->scopes = $scopes;
     }
@@ -405,13 +430,14 @@ class Connection
     /**
      * @return Client
      */
-    private function client()
+    private function client(): Client
     {
         if ($this->client) {
             return $this->client;
         }
 
         $handlerStack = HandlerStack::create();
+
         foreach ($this->middleWares as $middleWare) {
             $handlerStack->push($middleWare);
         }
@@ -428,15 +454,15 @@ class Connection
     /**
      * @param string $method
      * @param string $endpoint
-     * @param null   $body
+     * @param        $body
      * @param array  $params
      * @param array  $headers
      *
-     * @return \GuzzleHttp\Psr7\Request
-     *
+     * @return Request
      * @throws ApiException
+     * @throws GuzzleException
      */
-    private function createRequest($method = 'GET', $endpoint = '', $body = null, array $params = [], array $headers = [])
+    private function createRequest(string $method = 'GET', string $endpoint = '', $body = null, array $params = [], array $headers = []): Request
     {
         // Add default json headers to the request
         $headers = array_merge($headers, [
@@ -467,16 +493,16 @@ class Connection
 
     /**
      * @param string $method
-     * @param        $endpoint
-     * @param null   $body
+     * @param string $endpoint
+     * @param        $body
      * @param array  $params
      * @param array  $headers
      *
-     * @return \GuzzleHttp\Psr7\Request
-     *
+     * @return Request
      * @throws ApiException
+     * @throws GuzzleException
      */
-    private function createRequestNoJson($method = 'GET', $endpoint = '', $body = null, array $params = [], array $headers = [])
+    private function createRequestNoJson(string $method = 'GET', string $endpoint = '', $body = null, array $params = [], array $headers = []): Request
     {
         // If access token is not set or token has expired, acquire new token
         if (empty($this->accessToken)) {
@@ -494,9 +520,7 @@ class Connection
         }
 
         // Create the request
-        $request = new Request($method, $endpoint, $headers, $body);
-
-        return $request;
+        return new Request($method, $endpoint, $headers, $body);
     }
 
     /**
@@ -506,13 +530,12 @@ class Connection
      *
      * @throws ApiException
      */
-    private function parseResponse(Response $response)
+    private function parseResponse(Response $response): mixed
     {
         try {
             Psr7\Message::rewindBody($response);
-            $json = json_decode($response->getBody()->getContents(), true);
 
-            return $json;
+            return json_decode($response->getBody()->getContents(), true);
         } catch (\RuntimeException $e) {
             throw new ApiException($e->getMessage());
         }
@@ -521,15 +544,16 @@ class Connection
     /**
      * @param $headerLine
      *
-     * @return bool | array
+     * @return bool|array
      */
-    private function getNextParams($headerLine)
+    private function getNextParams($headerLine): bool|array
     {
         $links = Psr7\Header::parse($headerLine);
 
         foreach ($links as $link) {
             if (isset($link['rel']) && $link['rel'] === 'next') {
                 $query = parse_url(trim($link[0], '<>'), PHP_URL_QUERY);
+
                 parse_str($query, $params);
 
                 return $params;
@@ -544,7 +568,7 @@ class Connection
      * @throws ApiException
      * @throws GuzzleException
      */
-    private function acquireAccessToken()
+    private function acquireAccessToken(): void
     {
         $body = [
             'form_params' => [
@@ -560,6 +584,7 @@ class Connection
 
         if ($response->getStatusCode() == 200) {
             Psr7\Message::rewindBody($response);
+
             $body = json_decode($response->getBody()->getContents(), true);
 
             if (json_last_error() === JSON_ERROR_NONE) {
@@ -579,7 +604,7 @@ class Connection
      * @return ApiException
      * @throws TooManyRequestsException
      */
-    private function parseExceptionForErrorMessages(Exception $exception)
+    private function parseExceptionForErrorMessages(Exception $exception): ApiException
     {
         if (!$exception instanceof BadResponseException) {
             return new ApiException($exception->getMessage(), 0, $exception);
@@ -588,6 +613,7 @@ class Connection
         $response = $exception->getResponse();
 
         Psr7\Message::rewindBody($response);
+
         $responseBody = $response->getBody()->getContents();
         $decodedResponseBody = json_decode($responseBody, true);
 
@@ -607,10 +633,9 @@ class Connection
      * @param string            $errorMessage
      *
      * @return void
-     *
      * @throws TooManyRequestsException
      */
-    private function checkWhetherRateLimitHasBeenReached(ResponseInterface $response, $errorMessage)
+    private function checkWhetherRateLimitHasBeenReached(ResponseInterface $response, string $errorMessage): void
     {
         $rateLimitRemainingHeaders = $response->getHeader('RateLimit-Remaining');
 
@@ -630,7 +655,7 @@ class Connection
      *
      * @return string
      */
-    private function formatUrl($url, $method = 'get')
+    private function formatUrl(string $url, string $method = 'get'): string
     {
         if ($this->testing) {
             return 'https://httpbin.org/' . $method;
