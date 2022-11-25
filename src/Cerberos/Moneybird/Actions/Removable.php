@@ -15,7 +15,7 @@ trait Removable
      * @throws ApiException
      * @throws GuzzleException
      */
-    public function delete()
+    public function delete(): mixed
     {
         return $this->connection()->delete($this->getEndpoint() . '/' . urlencode($this->id));
     }

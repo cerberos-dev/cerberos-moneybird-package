@@ -11,14 +11,14 @@ trait BaseTrait
      *
      * @see \Cerberos\Moneybird\Model::connection()
      */
-    abstract protected function connection();
+    abstract protected function connection(): Connection;
 
     /**
      * @return string
      *
      * @see \Cerberos\Moneybird\Model::getEndpoint()
      */
-    abstract protected function getEndpoint();
+    abstract protected function getEndpoint(): string;
 
     /**
      * @param array $result
@@ -27,7 +27,7 @@ trait BaseTrait
      *
      * @see \Cerberos\Moneybird\Model::collectionFromResult()
      */
-    abstract protected function collectionFromResult(array $result);
+    abstract protected function collectionFromResult(array $result): array;
 
     /**
      * Create a new object with the response from the API.
@@ -38,5 +38,5 @@ trait BaseTrait
      *
      * @see \Cerberos\Moneybird\Model::makeFromResponse()
      */
-    abstract protected function makeFromResponse(array $response);
+    abstract protected function makeFromResponse(array $response): static;
 }
