@@ -50,7 +50,7 @@ class Moneybird
     /**
      * @var Connection
      */
-    protected $connection;
+    protected Connection $connection;
 
     /**
      * @param Connection $connection
@@ -61,11 +61,11 @@ class Moneybird
     }
 
     /**
-     * @param $attributes
+     * @param array $attributes
      *
      * @return Administration
      */
-    public function administration($attributes = [])
+    public function administration(array $attributes = []): Administration
     {
         return new Administration(
             $this->connection->withoutAdministrationId(),
@@ -74,151 +74,151 @@ class Moneybird
     }
 
     /**
-     * @param $attributes
+     * @param array $attributes
      *
      * @return Contact
      */
-    public function contact($attributes = [])
+    public function contact(array $attributes = []): Contact
     {
         return new Contact($this->connection, $attributes);
     }
 
     /**
-     * @param $attributes
+     * @param array $attributes
      *
      * @return ContactCustomField
      */
-    public function contactCustomField($attributes = [])
+    public function contactCustomField(array $attributes = []): ContactCustomField
     {
         return new ContactCustomField($this->connection, $attributes);
     }
 
     /**
-     * @param $attributes
+     * @param array $attributes
      *
      * @return Note
      */
-    public function note($attributes = [])
+    public function note(array $attributes = []): Note
     {
         return new Note($this->connection, $attributes);
     }
 
     /**
-     * @param $attributes
+     * @param array $attributes
      *
      * @return CustomField
      */
-    public function customField($attributes = [])
+    public function customField(array $attributes = []): CustomField
     {
         return new CustomField($this->connection, $attributes);
     }
 
     /**
-     * @param $attributes
+     * @param array $attributes
      *
      * @return DocumentStyle
      */
-    public function documentStyle($attributes = [])
+    public function documentStyle(array $attributes = []): DocumentStyle
     {
         return new DocumentStyle($this->connection, $attributes);
     }
 
     /**
-     * @param $attributes
+     * @param array $attributes
      *
      * @return Estimate
      */
-    public function estimate($attributes = [])
+    public function estimate(array $attributes = []): Estimate
     {
         return new Estimate($this->connection, $attributes);
     }
 
     /**
-     * @param $attributes
+     * @param array $attributes
      *
      * @return ExternalSalesInvoice
      */
-    public function externalSalesInvoice($attributes = [])
+    public function externalSalesInvoice(array $attributes = []): ExternalSalesInvoice
     {
         return new ExternalSalesInvoice($this->connection, $attributes);
     }
 
     /**
-     * @param $attributes
+     * @param array $attributes
      *
      * @return ExternalSalesInvoiceDetail
      */
-    public function externalSalesInvoiceDetail($attributes = [])
+    public function externalSalesInvoiceDetail(array $attributes = []): ExternalSalesInvoiceDetail
     {
         return new ExternalSalesInvoiceDetail($this->connection, $attributes);
     }
 
     /**
-     * @param $attributes
+     * @param array $attributes
      *
      * @return ExternalSalesInvoicePayment
      */
-    public function externalSalesInvoicePayment($attributes = [])
+    public function externalSalesInvoicePayment(array $attributes = []): ExternalSalesInvoicePayment
     {
         return new ExternalSalesInvoicePayment($this->connection, $attributes);
     }
 
     /**
-     * @param $attributes
+     * @param array $attributes
      *
      * @return FinancialAccount
      */
-    public function financialAccount($attributes = [])
+    public function financialAccount(array $attributes = []): FinancialAccount
     {
         return new FinancialAccount($this->connection, $attributes);
     }
 
     /**
-     * @param $attributes
+     * @param array $attributes
      *
      * @return FinancialMutation
      */
-    public function financialMutation($attributes = [])
+    public function financialMutation(array $attributes = []): FinancialMutation
     {
         return new FinancialMutation($this->connection, $attributes);
     }
 
     /**
-     * @param $attributes
+     * @param array $attributes
      *
      * @return FinancialStatement
      */
-    public function financialStatement($attributes = [])
+    public function financialStatement(array $attributes = []): FinancialStatement
     {
         return new FinancialStatement($this->connection, $attributes);
     }
 
     /**
-     * @param $attributes
+     * @param array $attributes
      *
      * @return GeneralDocument
      */
-    public function generalDocument($attributes = [])
+    public function generalDocument(array $attributes = []): GeneralDocument
     {
         return new GeneralDocument($this->connection, $attributes);
     }
 
     /**
-     * @param $attributes
+     * @param array $attributes
      *
      * @return GeneralJournalDocument
      */
-    public function generalJournalDocument($attributes = [])
+    public function generalJournalDocument(array $attributes = []): GeneralJournalDocument
     {
         return new GeneralJournalDocument($this->connection, $attributes);
     }
 
     /**
-     * @param $attributes
+     * @param array $attributes
      *
      * @return GeneralJournalDocumentEntry
      */
-    public function generalJournalDocumentEntry($attributes = [])
+    public function generalJournalDocumentEntry(array $attributes = []): GeneralJournalDocumentEntry
     {
         return new GeneralJournalDocumentEntry($this->connection, $attributes);
     }
@@ -226,267 +226,267 @@ class Moneybird
     /**
      * @return Connection
      */
-    public function getConnection()
+    public function getConnection(): Connection
     {
         return $this->connection;
     }
 
     /**
-     * @param $attributes
+     * @param array $attributes
      *
      * @return Identity
      */
-    public function identity($attributes = [])
+    public function identity(array $attributes = []): Identity
     {
         return new Identity($this->connection, $attributes);
     }
 
     /**
-     * @param $attributes
+     * @param array $attributes
      *
      * @return ImportMapping
      */
-    public function importMapping($attributes = [])
+    public function importMapping(array $attributes = []): ImportMapping
     {
         return new ImportMapping($this->connection, $attributes);
     }
 
     /**
-     * @param $attributes
+     * @param array $attributes
      *
      * @return LedgerAccount
      */
-    public function ledgerAccount($attributes = [])
+    public function ledgerAccount(array $attributes = []): LedgerAccount
     {
         return new LedgerAccount($this->connection, $attributes);
     }
 
     /**
-     * @param $attributes
+     * @param array $attributes
      *
      * @return Product
      */
-    public function product($attributes = [])
+    public function product(array $attributes = []): Product
     {
         return new Product($this->connection, $attributes);
     }
 
     /**
-     * @param $attributes
+     * @param array $attributes
      *
      * @return Project
      */
-    public function project($attributes = [])
+    public function project(array $attributes = []): Project
     {
         return new Project($this->connection, $attributes);
     }
 
     /**
-     * @param $attributes
+     * @param array $attributes
      *
      * @return PurchaseInvoice
      */
-    public function purchaseInvoice($attributes = [])
+    public function purchaseInvoice(array $attributes = []): PurchaseInvoice
     {
         return new PurchaseInvoice($this->connection, $attributes);
     }
 
     /**
-     * @param $attributes
+     * @param array $attributes
      *
      * @return PurchaseInvoiceDetail
      */
-    public function purchaseInvoiceDetail($attributes = [])
+    public function purchaseInvoiceDetail(array $attributes = []): PurchaseInvoiceDetail
     {
         return new PurchaseInvoiceDetail($this->connection, $attributes);
     }
 
     /**
-     * @param $attributes
+     * @param array $attributes
      *
      * @return PurchaseInvoicePayment
      */
-    public function purchaseInvoicePayment($attributes = [])
+    public function purchaseInvoicePayment(array $attributes = []): PurchaseInvoicePayment
     {
         return new PurchaseInvoicePayment($this->connection, $attributes);
     }
 
     /**
-     * @param $attributes
+     * @param array $attributes
      *
      * @return Receipt
      */
-    public function receipt($attributes = [])
+    public function receipt(array $attributes = []): Receipt
     {
         return new Receipt($this->connection, $attributes);
     }
 
     /**
-     * @param $attributes
+     * @param array $attributes
      *
      * @return ReceiptDetail
      */
-    public function receiptDetail($attributes = [])
+    public function receiptDetail(array $attributes = []): ReceiptDetail
     {
         return new ReceiptDetail($this->connection, $attributes);
     }
 
     /**
-     * @param $attributes
+     * @param array $attributes
      *
      * @return ReceiptPayment
      */
-    public function receiptPayment($attributes = [])
+    public function receiptPayment(array $attributes = []): ReceiptPayment
     {
         return new ReceiptPayment($this->connection, $attributes);
     }
 
     /**
-     * @param $attributes
+     * @param array $attributes
      *
      * @return RecurringSalesInvoice
      */
-    public function recurringSalesInvoice($attributes = [])
+    public function recurringSalesInvoice(array $attributes = []): RecurringSalesInvoice
     {
         return new RecurringSalesInvoice($this->connection, $attributes);
     }
 
     /**
-     * @param $attributes
+     * @param array $attributes
      *
      * @return RecurringSalesInvoiceCustomField
      */
-    public function recurringSalesInvoiceCustomField($attributes = [])
+    public function recurringSalesInvoiceCustomField(array $attributes = []): RecurringSalesInvoiceCustomField
     {
         return new RecurringSalesInvoiceCustomField($this->connection, $attributes);
     }
 
     /**
-     * @param $attributes
+     * @param array $attributes
      *
      * @return RecurringSalesInvoiceDetail
      */
-    public function recurringSalesInvoiceDetail($attributes = [])
+    public function recurringSalesInvoiceDetail(array $attributes = []): RecurringSalesInvoiceDetail
     {
         return new RecurringSalesInvoiceDetail($this->connection, $attributes);
     }
 
     /**
-     * @param $attributes
+     * @param array $attributes
      *
      * @return SalesInvoice
      */
-    public function salesInvoice($attributes = [])
+    public function salesInvoice(array $attributes = []): SalesInvoice
     {
         return new SalesInvoice($this->connection, $attributes);
     }
 
     /**
-     * @param $attributes
+     * @param array $attributes
      *
      * @return SalesInvoiceCustomField
      */
-    public function salesInvoiceCustomField($attributes = [])
+    public function salesInvoiceCustomField(array $attributes = []): SalesInvoiceCustomField
     {
         return new SalesInvoiceCustomField($this->connection, $attributes);
     }
 
     /**
-     * @param $attributes
+     * @param array $attributes
      *
      * @return SalesInvoiceDetail
      */
-    public function salesInvoiceDetail($attributes = [])
+    public function salesInvoiceDetail(array $attributes = []): SalesInvoiceDetail
     {
         return new SalesInvoiceDetail($this->connection, $attributes);
     }
 
     /**
-     * @param $attributes
+     * @param array $attributes
      *
      * @return SalesInvoicePayment
      */
-    public function salesInvoicePayment($attributes = [])
+    public function salesInvoicePayment(array $attributes = []): SalesInvoicePayment
     {
         return new SalesInvoicePayment($this->connection, $attributes);
     }
 
     /**
-     * @param $attributes
+     * @param array $attributes
      *
      * @return SalesInvoiceReminder
      */
-    public function salesInvoiceReminder($attributes = [])
+    public function salesInvoiceReminder(array $attributes = []): SalesInvoiceReminder
     {
         return new SalesInvoiceReminder($this->connection, $attributes);
     }
 
     /**
-     * @param $attributes
+     * @param array $attributes
      *
      * @return TaxRate
      */
-    public function taxRate($attributes = [])
+    public function taxRate(array $attributes = []): TaxRate
     {
         return new TaxRate($this->connection, $attributes);
     }
 
     /**
-     * @param $attributes
+     * @param array $attributes
      *
      * @return TimeEntry
      */
-    public function timeEntry($attributes = [])
+    public function timeEntry(array $attributes = []): TimeEntry
     {
         return new TimeEntry($this->connection, $attributes);
     }
 
     /**
-     * @param $attributes
+     * @param array $attributes
      *
      * @return TypelessDocument
      */
-    public function typelessDocument($attributes = [])
+    public function typelessDocument(array $attributes = []): TypelessDocument
     {
         return new TypelessDocument($this->connection, $attributes);
     }
 
     /**
-     * @param $attributes
+     * @param array $attributes
      *
      * @return User
      */
-    public function user($attributes = [])
+    public function user(array $attributes = []): User
     {
         return new User($this->connection, $attributes);
     }
 
     /**
-     * @param $attributes
+     * @param array $attributes
      *
      * @return Webhook
      */
-    public function webhook($attributes = [])
+    public function webhook(array $attributes = []): Webhook
     {
         return new Webhook($this->connection, $attributes);
     }
 
     /**
-     * @param $attributes
+     * @param array $attributes
      *
      * @return Workflow
      */
-    public function workflow($attributes = [])
+    public function workflow(array $attributes = []): Workflow
     {
         return new Workflow($this->connection, $attributes);
     }
 
     /**
-     * @param $attributes
+     * @param array $attributes
      *
      * @return Subscription
      */
-    public function subscription($attributes = [])
+    public function subscription(array $attributes = []): Subscription
     {
         return new Subscription($this->connection, $attributes);
     }
