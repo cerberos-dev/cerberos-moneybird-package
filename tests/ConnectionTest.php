@@ -6,7 +6,9 @@ use Cerberos\Exceptions\ApiException;
 use Cerberos\Exceptions\TooManyRequestsException;
 use Cerberos\Moneybird\Connection;
 use Cerberos\Moneybird\Entities\Contact;
+use Closure;
 use GuzzleHttp\Exception\BadResponseException;
+use GuzzleHttp\Exception\GuzzleException;
 use GuzzleHttp\Middleware;
 use GuzzleHttp\Promise\PromiseInterface;
 use GuzzleHttp\Psr7;
@@ -26,10 +28,12 @@ class ConnectionTest extends TestCase
      *
      * @var array
      */
-    private $container;
+    private array $container;
 
     /**
      * @throws ApiException
+     * @throws TooManyRequestsException
+     * @throws GuzzleException
      */
     public function testClientIncludesAuthenticationHeader()
     {
@@ -39,11 +43,14 @@ class ConnectionTest extends TestCase
         $contact->get();
 
         $request = $this->getRequestFromHistoryContainer();
+
         $this->assertEquals('Bearer testAccessToken', $request->getHeaderLine('Authorization'));
     }
 
     /**
      * @throws ApiException
+     * @throws TooManyRequestsException
+     * @throws GuzzleException
      */
     public function testClientIncludesJsonHeaders()
     {
@@ -53,12 +60,15 @@ class ConnectionTest extends TestCase
         $contact->get();
 
         $request = $this->getRequestFromHistoryContainer();
+
         $this->assertEquals('application/json', $request->getHeaderLine('Accept'));
         $this->assertEquals('application/json', $request->getHeaderLine('Content-Type'));
     }
 
     /**
      * @throws ApiException
+     * @throws TooManyRequestsException
+     * @throws GuzzleException
      */
     public function testClientTriesToGetAccessTokenWhenNoneGiven()
     {
@@ -72,6 +82,7 @@ class ConnectionTest extends TestCase
         $this->assertEquals('POST', $request->getMethod());
 
         Psr7\Message::rewindBody($request);
+
         $this->assertEquals(
             'redirect_uri=testRedirectUrl&grant_type=authorization_code&client_id=testClientId&client_secret=testClientSecret&code=testAuthorizationCode',
             $request->getBody()->getContents()
@@ -80,6 +91,8 @@ class ConnectionTest extends TestCase
 
     /**
      * @throws ApiException
+     * @throws TooManyRequestsException
+     * @throws GuzzleException
      */
     public function testClientContinuesWithRequestAfterGettingAccessTokenWhenNoneGiven()
     {
@@ -90,11 +103,13 @@ class ConnectionTest extends TestCase
         $contact->get();
 
         $request = $this->getRequestFromHistoryContainer(1);
+
         $this->assertEquals('GET', $request->getMethod());
     }
 
     /**
      * @throws ApiException
+     * @throws GuzzleException
      */
     public function testClientDetectsApiRateLimit()
     {
@@ -111,6 +126,7 @@ class ConnectionTest extends TestCase
         ];
 
         $connection = $this->getConnectionForTesting($additionalMiddlewares);
+
         $contact = new Contact($connection);
 
         try {
@@ -122,17 +138,19 @@ class ConnectionTest extends TestCase
     }
 
     /**
-     * @param callable[] $additionalMiddlewares
+     * @param array $additionalMiddlewares
      *
      * @return Connection
      */
-    private function getConnectionForTesting(array $additionalMiddlewares = [])
+    private function getConnectionForTesting(array $additionalMiddlewares = []): Connection
     {
         $this->container = [];
+
         $history = Middleware::history($this->container);
 
         $connection = new Connection();
         $connection->insertMiddleWare($history);
+
         if (count($additionalMiddlewares) > 0) {
             foreach ($additionalMiddlewares as $additionalMiddleware) {
                 $connection->insertMiddleWare($additionalMiddleware);
@@ -149,20 +167,27 @@ class ConnectionTest extends TestCase
     }
 
     /**
-     * @param int $requestNumber
+     * @param $requestNumber
      *
-     * @return RequestInterface
+     * @return mixed
      */
-    private function getRequestFromHistoryContainer($requestNumber = 0)
+    private function getRequestFromHistoryContainer($requestNumber = 0): mixed
     {
         $this->assertArrayHasKey($requestNumber, $this->container);
         $this->assertArrayHasKey('request', $this->container[$requestNumber]);
+
         $this->assertInstanceOf(RequestInterface::class, $this->container[$requestNumber]['request']);
 
         return $this->container[$requestNumber]['request'];
     }
 
-    private function getMiddleWareThatAddsResponseHeader($header, $value)
+    /**
+     * @param $header
+     * @param $value
+     *
+     * @return Closure
+     */
+    private function getMiddleWareThatAddsResponseHeader($header, $value): Closure
     {
         return function (callable $handler) use ($header, $value) {
             return function (RequestInterface $request, array $options) use ($handler, $header, $value) {
@@ -178,7 +203,12 @@ class ConnectionTest extends TestCase
         };
     }
 
-    private function getMiddleWareThatThrowsBadResponseException($statusCode = null)
+    /**
+     * @param $statusCode
+     *
+     * @return Closure
+     */
+    private function getMiddleWareThatThrowsBadResponseException($statusCode = null): Closure
     {
         return function (callable $handler) use ($statusCode) {
             return function (RequestInterface $request, array $options) use ($handler, $statusCode) {
