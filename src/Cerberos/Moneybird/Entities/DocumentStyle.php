@@ -5,9 +5,6 @@ namespace Cerberos\Moneybird\Entities;
 use Cerberos\Moneybird\Actions\FindAll;
 use Cerberos\Moneybird\Model;
 
-/**
- * Class DocumentStyle.
- */
 class DocumentStyle extends Model
 {
     use FindAll;
@@ -15,7 +12,7 @@ class DocumentStyle extends Model
     /**
      * @var array
      */
-    protected $fillable = [
+    protected array $fillable = [
         'id',
         'name',
         'identity_id',
@@ -44,5 +41,5 @@ class DocumentStyle extends Model
     /**
      * @var string
      */
-    protected $endpoint = 'document_styles';
+    protected string $endpoint = 'document_styles';
 }

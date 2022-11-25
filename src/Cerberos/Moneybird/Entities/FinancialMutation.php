@@ -2,17 +2,14 @@
 
 namespace Cerberos\Moneybird\Entities;
 
+use Cerberos\Exceptions\ApiException;
+use Cerberos\Exceptions\TooManyRequestsException;
 use Cerberos\Moneybird\Actions\Filterable;
 use Cerberos\Moneybird\Actions\FindAll;
 use Cerberos\Moneybird\Actions\Synchronizable;
-use Cerberos\Moneybird\Exceptions\ApiException;
 use Cerberos\Moneybird\Model;
+use GuzzleHttp\Exception\GuzzleException;
 
-/**
- * Class FinancialMutation.
- *
- * @property LedgerAccountBooking[] $ledger_account_bookings
- */
 class FinancialMutation extends Model
 {
     use FindAll, Filterable, Synchronizable;
@@ -22,7 +19,7 @@ class FinancialMutation extends Model
      *
      * @var array
      */
-    private static $allowedBookingTypesToLinkToFinancialMutation = [
+    private static array $allowedBookingTypesToLinkToFinancialMutation = [
         'Document',
         'ExternalSalesInvoice',
         'LedgerAccount',
@@ -41,8 +38,7 @@ class FinancialMutation extends Model
      *
      * @var array
      */
-    private static $allowedBookingTypesToUnlinkFromFinancialMutation = [
-
+    private static array $allowedBookingTypesToUnlinkFromFinancialMutation = [
         'LedgerAccountBooking',
         'Payment',
     ];
@@ -50,7 +46,7 @@ class FinancialMutation extends Model
     /**
      * @var array
      */
-    protected $fillable = [
+    protected array $fillable = [
         'id',
         'amount',
         'code',
@@ -77,12 +73,12 @@ class FinancialMutation extends Model
     /**
      * @var string
      */
-    protected $endpoint = 'financial_mutations';
+    protected string $endpoint = 'financial_mutations';
 
     /**
      * @var array
      */
-    protected $multipleNestedEntities = [
+    protected array $multipleNestedEntities = [
         'ledger_account_bookings' => [
             'entity' => LedgerAccountBooking::class,
             'type'   => self::NESTING_TYPE_ARRAY_OF_OBJECTS,
@@ -90,18 +86,25 @@ class FinancialMutation extends Model
     ];
 
     /**
-     * @param string         $bookingType
-     * @param string | int   $bookingId
-     * @param string | float $priceBase
-     * @param string | float $price
-     * @param string         $description
-     * @param string         $paymentBatchIdentifier
+     * @param string            $bookingType
+     * @param int|string        $bookingId
+     * @param float|string      $priceBase
+     * @param float|string|null $price
+     * @param string|null       $description
+     * @param string|null       $paymentBatchIdentifier
      *
-     * @return int
-     *
+     * @return mixed
      * @throws ApiException
+     * @throws GuzzleException
      */
-    public function linkToBooking($bookingType, $bookingId, $priceBase, $price = null, $description = null, $paymentBatchIdentifier = null)
+    public function linkToBooking(
+        string $bookingType,
+        int|string $bookingId,
+        float|string $priceBase,
+        float|string $price = null,
+        string $description = null,
+        string $paymentBatchIdentifier = null
+    ): mixed
     {
         if (!in_array($bookingType, self::$allowedBookingTypesToLinkToFinancialMutation, true)) {
             throw new ApiException('Invalid booking type to link to FinancialMutation, allowed booking types: '
@@ -113,29 +116,28 @@ class FinancialMutation extends Model
         }
 
         //Filter out potential NULL values
-        $parameters = array_filter(
-            [
-                'booking_type'             => $bookingType,
-                'booking_id'               => $bookingId,
-                'price_base'               => $priceBase,
-                'price'                    => $price,
-                'description'              => $description,
-                'payment_batch_identifier' => $paymentBatchIdentifier,
-            ]
-        );
+        $parameters = array_filter([
+            'booking_type'             => $bookingType,
+            'booking_id'               => $bookingId,
+            'price_base'               => $priceBase,
+            'price'                    => $price,
+            'description'              => $description,
+            'payment_batch_identifier' => $paymentBatchIdentifier,
+        ]);
 
         return $this->connection->patch($this->endpoint . '/' . $this->id . '/link_booking', json_encode($parameters));
     }
 
     /**
-     * @param string       $bookingType
-     * @param string | int $bookingId
+     * @param string     $bookingType
+     * @param int|string $bookingId
      *
-     * @return array
-     *
+     * @return mixed
      * @throws ApiException
+     * @throws TooManyRequestsException
+     * @throws GuzzleException
      */
-    public function unlinkFromBooking($bookingType, $bookingId)
+    public function unlinkFromBooking(string $bookingType, int|string $bookingId): mixed
     {
         if (!in_array($bookingType, self::$allowedBookingTypesToUnlinkFromFinancialMutation, true)) {
             throw new ApiException('Invalid booking type to unlink from FinancialMutation, allowed booking types: '

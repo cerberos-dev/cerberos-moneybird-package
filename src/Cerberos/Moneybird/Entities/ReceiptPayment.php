@@ -4,15 +4,12 @@ namespace Cerberos\Moneybird\Entities;
 
 use Cerberos\Moneybird\Model;
 
-/**
- * Class InvoicePayment.
- */
 class ReceiptPayment extends Model
 {
     /**
      * @var array
      */
-    protected $fillable = [
+    protected array $fillable = [
         'id',
         'invoice_type',
         'invoice_id',
@@ -31,5 +28,5 @@ class ReceiptPayment extends Model
     /**
      * @var string
      */
-    protected $namespace = 'payment';
+    protected string $namespace = 'payment';
 }

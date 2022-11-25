@@ -16,7 +16,7 @@ class Webhook extends Model
     /**
      * @var array
      */
-    protected $fillable = [
+    protected array $fillable = [
         'id',
         'url',
         'events',
@@ -27,5 +27,5 @@ class Webhook extends Model
     /**
      * @var string
      */
-    protected $endpoint = 'webhooks';
+    protected string $endpoint = 'webhooks';
 }

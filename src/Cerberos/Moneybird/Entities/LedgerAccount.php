@@ -8,9 +8,6 @@ use Cerberos\Moneybird\Actions\Removable;
 use Cerberos\Moneybird\Actions\Storable;
 use Cerberos\Moneybird\Model;
 
-/**
- * Class LedgerAccount.
- */
 class LedgerAccount extends Model
 {
     use FindAll, FindOne, Storable, Removable;
@@ -18,7 +15,7 @@ class LedgerAccount extends Model
     /**
      * @var array
      */
-    protected $fillable = [
+    protected array $fillable = [
         'id',
         'name',
         'account_type',
@@ -32,10 +29,10 @@ class LedgerAccount extends Model
     /**
      * @var string
      */
-    protected $endpoint = 'ledger_accounts';
+    protected string $endpoint = 'ledger_accounts';
 
     /**
      * @var string
      */
-    protected $namespace = 'ledger_account';
+    protected string $namespace = 'ledger_account';
 }

@@ -4,15 +4,12 @@ namespace Cerberos\Moneybird\Entities;
 
 use Cerberos\Moneybird\Model;
 
-/**
- * Class InvoiceDetail.
- */
 class GeneralJournalDocumentEntry extends Model
 {
     /**
      * @var array
      */
-    protected $fillable = [
+    protected array $fillable = [
         'id',
         'administration_id',
         'ledger_account_id',

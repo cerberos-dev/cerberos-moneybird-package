@@ -11,9 +11,6 @@ use Cerberos\Moneybird\Actions\Storable;
 use Cerberos\Moneybird\Actions\Synchronizable;
 use Cerberos\Moneybird\Model;
 
-/**
- * Class RecurringSalesInvoice.
- */
 class RecurringSalesInvoice extends Model
 {
     use FindAll, FindOne, Storable, Removable, Filterable, Synchronizable, Noteable;
@@ -21,7 +18,7 @@ class RecurringSalesInvoice extends Model
     /**
      * @var array
      */
-    protected $fillable = [
+    protected array $fillable = [
         'id',
         'contact_id',
         'contact',
@@ -62,17 +59,17 @@ class RecurringSalesInvoice extends Model
     /**
      * @var string
      */
-    protected $endpoint = 'recurring_sales_invoices';
+    protected string $endpoint = 'recurring_sales_invoices';
 
     /**
      * @var string
      */
-    protected $namespace = 'recurring_sales_invoice';
+    protected string $namespace = 'recurring_sales_invoice';
 
     /**
      * @var array
      */
-    protected $multipleNestedEntities = [
+    protected array $multipleNestedEntities = [
         'details'       => [
             'entity' => RecurringSalesInvoiceDetail::class,
             'type'   => self::NESTING_TYPE_ARRAY_OF_OBJECTS,

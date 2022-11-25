@@ -16,7 +16,7 @@ class TypelessDocument extends Model
     /**
      * @var array
      */
-    protected $fillable = [
+    protected array $fillable = [
         'id',
         'contact_id',
         'reference',
@@ -31,10 +31,10 @@ class TypelessDocument extends Model
     /**
      * @var string
      */
-    protected $endpoint = 'documents/typeless_documents';
+    protected string $endpoint = 'documents/typeless_documents';
 
     /**
      * @var string
      */
-    protected $namespace = 'typeless_document';
+    protected string $namespace = 'typeless_document';
 }

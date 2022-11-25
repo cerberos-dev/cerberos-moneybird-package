@@ -4,13 +4,14 @@ namespace Cerberos\Moneybird\Entities;
 
 use Cerberos\Exceptions\ApiException;
 use Cerberos\Moneybird\Model;
+use GuzzleHttp\Exception\GuzzleException;
 
 class SalesInvoiceReminder extends Model
 {
     /**
      * @var array
      */
-    protected $fillable = [
+    protected array $fillable = [
         'contact_id',
         'workflow_id',
         'identity_id',
@@ -21,19 +22,24 @@ class SalesInvoiceReminder extends Model
         'email_address',
     ];
 
-    protected $endpoint = 'sales_invoices';
+    /**
+     * @var string
+     */
+    protected string $endpoint = 'sales_invoices';
 
     /**
      * @var string
      */
-    protected $namespace = 'sales_invoice_reminders';
+    protected string $namespace = 'sales_invoice_reminders';
 
     /**
      * Pushes the reminder.
      *
+     * @return void
      * @throws ApiException
+     * @throws GuzzleException
      */
-    public function send()
+    public function send(): void
     {
         $aReminder = $this->json();
         $aReminder = json_decode($aReminder, true);

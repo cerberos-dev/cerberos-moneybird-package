@@ -2,6 +2,7 @@
 
 namespace Cerberos\Moneybird\Entities;
 
+use Cerberos\Exceptions\ApiException;
 use Cerberos\Moneybird\Actions\Attachment;
 use Cerberos\Moneybird\Actions\Filterable;
 use Cerberos\Moneybird\Actions\FindAll;
@@ -10,12 +11,9 @@ use Cerberos\Moneybird\Actions\Noteable;
 use Cerberos\Moneybird\Actions\Removable;
 use Cerberos\Moneybird\Actions\Storable;
 use Cerberos\Moneybird\Actions\Synchronizable;
-use Cerberos\Moneybird\Exceptions\ApiException;
 use Cerberos\Moneybird\Model;
+use GuzzleHttp\Exception\GuzzleException;
 
-/**
- * Class PurchaseInvoice.
- */
 class PurchaseInvoice extends Model
 {
     use FindAll, FindOne, Storable, Removable, Filterable, Synchronizable, Attachment, Noteable;
@@ -23,7 +21,7 @@ class PurchaseInvoice extends Model
     /**
      * @var array
      */
-    protected $fillable = [
+    protected array $fillable = [
         'id',
         'contact_id',
         'reference',
@@ -54,24 +52,24 @@ class PurchaseInvoice extends Model
     /**
      * @var string
      */
-    protected $endpoint = 'documents/purchase_invoices';
+    protected string $endpoint = 'documents/purchase_invoices';
 
     /**
      * @var string
      */
-    protected $namespace = 'purchase_invoice';
+    protected string $namespace = 'purchase_invoice';
 
     /**
      * @var array
      */
-    protected $singleNestedEntities = [
+    protected array $singleNestedEntities = [
         'contact' => Contact::class,
     ];
 
     /**
      * @var array
      */
-    protected $multipleNestedEntities = [
+    protected array $multipleNestedEntities = [
         'details'  => [
             'entity' => PurchaseInvoiceDetail::class,
             'type'   => self::NESTING_TYPE_ARRAY_OF_OBJECTS,
@@ -90,8 +88,9 @@ class PurchaseInvoice extends Model
      * @return $this
      *
      * @throws ApiException
+     * @throws GuzzleException
      */
-    public function registerPayment(PurchaseInvoicePayment $purchaseInvoicePayment)
+    public function registerPayment(PurchaseInvoicePayment $purchaseInvoicePayment): static
     {
         if (!isset($purchaseInvoicePayment->payment_date)) {
             throw new ApiException('Required [payment_date] is missing');
