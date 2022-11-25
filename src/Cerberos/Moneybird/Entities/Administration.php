@@ -5,9 +5,6 @@ namespace Cerberos\Moneybird\Entities;
 use Cerberos\Moneybird\Actions\FindAll;
 use Cerberos\Moneybird\Model;
 
-/**
- * Class Administration.
- */
 class Administration extends Model
 {
     use FindAll;
@@ -15,7 +12,7 @@ class Administration extends Model
     /**
      * @var array
      */
-    protected $fillable = [
+    protected array $fillable = [
         'id',
         'name',
         'language',
@@ -27,5 +24,5 @@ class Administration extends Model
     /**
      * @var string
      */
-    protected $endpoint = 'administrations';
+    protected string $endpoint = 'administrations';
 }
