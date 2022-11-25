@@ -1,6 +1,6 @@
 <?php
 
-namespace PicqerTest\Financials\Moneybird\Entities;
+namespace CerberosTest\Financials\Moneybird;
 
 use Cerberos\Moneybird\Connection;
 use Cerberos\Moneybird\Entities\Contact;
