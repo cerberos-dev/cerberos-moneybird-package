@@ -4,7 +4,7 @@ on:
   push:
     # Run when any tag is created.
     tags:
-      - '*'
+      - "*"
 
   # Run on PR's for master when Opened, Reopened or Synchronized.
   pull_request:
@@ -22,7 +22,7 @@ jobs:
 
     strategy:
       matrix:
-        php-version: [ 8.0 ]
+        php-version: [8.1]
 
     steps:
       - uses: shivammathur/setup-php@v2
