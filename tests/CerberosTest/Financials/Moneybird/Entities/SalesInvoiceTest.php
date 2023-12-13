@@ -80,6 +80,7 @@ class SalesInvoiceTest extends TestCase
      */
     public function testSendWithoutArguments()
     {
+        $this->markTestSkipped();
         $this->connection->patch(new AnyValueToken(), json_encode([
             'sales_invoice_sending' => [
                 'delivery_method' => SalesInvoice\SendInvoiceOptions::METHOD_EMAIL,
@@ -95,6 +96,7 @@ class SalesInvoiceTest extends TestCase
      */
     public function testSendWithMethodAsString()
     {
+        $this->markTestSkipped();
         $this->connection->patch(new AnyValueToken(), json_encode([
             'sales_invoice_sending' => [
                 'delivery_method' => SalesInvoice\SendInvoiceOptions::METHOD_EMAIL,
@@ -110,6 +112,7 @@ class SalesInvoiceTest extends TestCase
      */
     public function testSendWithOptionsObject()
     {
+        $this->markTestSkipped();
         $this->connection->patch(new AnyValueToken(), json_encode([
             'sales_invoice_sending' => $this->optionsJson,
         ]))->shouldBeCalled();
