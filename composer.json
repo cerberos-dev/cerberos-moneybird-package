@@ -1,37 +1,37 @@
 {
-    "name": "cerberos/moneybird",
-    "description": "Moneybird API",
-    "type": "library",
-    "keywords": [
-        "api",
-        "php",
-        "moneybird"
-    ],
-    "license": "MIT",
-    "autoload": {
-        "psr-4": {
-            "Cerberos\\Moneybird\\": "src/Cerberos/Moneybird"
-        }
-    },
-    "authors": [
-        {
-            "name": "Marius van Zundert",
-            "email": "marius.vanzundert@cerberos.dev"
-        },
-        {
-            "name": "Ruud Lambregts",
-            "email": "ruud.lambregts@cerberos.dev"
-        }
-    ],
-    "require": {
-        "php": ">=8.0",
-        "ext-json": "*",
-        "guzzlehttp/guzzle": "^7.0",
-        "psr/http-client": "^1.0"
-    },
-    "require-dev": {
-        "phpunit/phpunit": "^9.3",
-        "phpspec/prophecy-phpunit": "^2.0",
-        "symfony/var-dumper": "^6.0"
+  "name": "cerberos/moneybird",
+  "description": "Moneybird API",
+  "type": "library",
+  "keywords": [
+    "api",
+    "php",
+    "moneybird"
+  ],
+  "license": "MIT",
+  "autoload": {
+    "psr-4": {
+      "Cerberos\\Moneybird\\": "src/Cerberos/Moneybird"
     }
+  },
+  "authors": [
+    {
+      "name": "Marius van Zundert",
+      "email": "marius.vanzundert@cerberos.dev"
+    },
+    {
+      "name": "Ruud Lambregts",
+      "email": "ruud.lambregts@cerberos.dev"
+    }
+  ],
+  "require": {
+    "php": ">=8.0",
+    "ext-json": "*",
+    "guzzlehttp/guzzle": "^7.2.5",
+    "psr/http-client": "^1.0"
+  },
+  "require-dev": {
+    "phpunit/phpunit": "^9.3",
+    "phpspec/prophecy-phpunit": "^2.0",
+    "symfony/var-dumper": "^6.0"
+  }
 }
