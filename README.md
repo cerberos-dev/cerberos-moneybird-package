@@ -1,4 +1,4 @@
-# Moneybird PHP Clien
+# Moneybird PHP Client
 
 PHP Client for the [Moneybird API](https://developer.moneybird.com/). This client lets you integrate with Moneybird, for example by:
 
