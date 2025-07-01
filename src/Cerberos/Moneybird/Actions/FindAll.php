@@ -13,11 +13,11 @@ trait FindAll
     /**
      * @param array $params
      *
-     * @return array
-     *
      * @throws ApiException
      * @throws GuzzleException
      * @throws TooManyRequestsException
+     * @return array
+     *
      */
     public function get(array $params = []): array
     {
@@ -29,10 +29,10 @@ trait FindAll
     /**
      * @param array $params
      *
-     * @return array
-     *
      * @throws ApiException
      * @throws GuzzleException
+     * @return array
+     *
      */
     public function getAll(array $params = []): array
     {

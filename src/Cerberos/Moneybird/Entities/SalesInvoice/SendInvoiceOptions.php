@@ -8,10 +8,10 @@ use JsonSerializable;
 
 class SendInvoiceOptions implements JsonSerializable
 {
-    const METHOD_EMAIL             = 'Email';
+    const METHOD_EMAIL = 'Email';
     const METHOD_SIMPLER_INVOICING = 'Simplerinvoicing';
-    const METHOD_POST              = 'Post';
-    const METHOD_MANUAL            = 'Manual';
+    const METHOD_POST = 'Post';
+    const METHOD_MANUAL = 'Manual';
 
     /**
      * @var string
@@ -58,7 +58,7 @@ class SendInvoiceOptions implements JsonSerializable
      * @param $emailAddress
      * @param $emailMessage
      */
-    public function __construct($deliveryMethod = null, $emailAddress = null, $emailMessage = null)
+    public function __construct($deliveryMethod = null, ?string $emailAddress = null, ?string $emailMessage = null)
     {
         $this->setMethod($deliveryMethod ?: self::METHOD_EMAIL);
         $this->setEmailAddress($emailAddress);
@@ -68,7 +68,7 @@ class SendInvoiceOptions implements JsonSerializable
     /**
      * @return string[]
      */
-    private static function getValidMethods(): array
+    private function getValidMethods(): array
     {
         // TODO move this to a private const VALID_METHODS when php 7 is supported
         return [
@@ -111,7 +111,7 @@ class SendInvoiceOptions implements JsonSerializable
             'email_address'     => $this->getEmailAddress(),
             'email_message'     => $this->getEmailMessage(),
             'invoice_date'      => $this->getScheduleDate() ? $this->getScheduleDate()->format('Y-m-d') : null,
-        ], function ($item) {
+        ], function ($item): bool {
             return $item !== null;
         });
     }
@@ -139,14 +139,14 @@ class SendInvoiceOptions implements JsonSerializable
      */
     public function setMethod(string $method): void
     {
-        $validMethods = self::getValidMethods();
+        $validMethods = $this->getValidMethods();
 
         if (!in_array($method, $validMethods)) {
-            $method = is_object($method) ? get_class($method) : $method;
+            $method = is_object($method) ? $method::class : $method;
 
             $validMethodNames = implode(',', $validMethods);
 
-            throw new InvalidArgumentException("Invalid method: '$method'. Expected one of: '$validMethodNames'");
+            throw new InvalidArgumentException("Invalid method: '{$method}'. Expected one of: '{$validMethodNames}'");
         }
 
         $this->method = $method;
@@ -165,7 +165,7 @@ class SendInvoiceOptions implements JsonSerializable
      *
      * @return void
      */
-    public function setEmailAddress(string|null $emailAddress): void
+    public function setEmailAddress(string | null $emailAddress): void
     {
         $this->emailAddress = $emailAddress;
     }
@@ -183,7 +183,7 @@ class SendInvoiceOptions implements JsonSerializable
      *
      * @return void
      */
-    public function setEmailMessage(string|null $emailMessage): void
+    public function setEmailMessage(string | null $emailMessage): void
     {
         $this->emailMessage = $emailMessage;
     }

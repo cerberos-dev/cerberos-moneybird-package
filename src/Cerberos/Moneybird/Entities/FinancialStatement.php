@@ -8,7 +8,8 @@ use Cerberos\Moneybird\Model;
 
 class FinancialStatement extends Model
 {
-    use Storable, Removable;
+    use Storable;
+    use Removable;
 
     /**
      * @var array

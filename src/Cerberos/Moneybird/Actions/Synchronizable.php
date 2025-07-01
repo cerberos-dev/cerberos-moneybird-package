@@ -12,9 +12,9 @@ trait Synchronizable
     /**
      * @param array $filters
      *
-     * @return array
      * @throws ApiException
      * @throws GuzzleException
+     * @return array
      */
     public function listVersions(array $filters = []): array
     {
@@ -37,9 +37,9 @@ trait Synchronizable
     /**
      * @param array $ids
      *
-     * @return array
      * @throws ApiException
      * @throws GuzzleException
+     * @return array
      */
     public function getVersions(array $ids): array
     {

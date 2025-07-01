@@ -12,11 +12,11 @@ class PurchaseInvoicePayment extends InvoicePayment
     /**
      * Delete the current purchase invoice payment.
      *
-     * @return mixed
-     *
      * @throws ApiException
      * @throws TooManyRequestsException
      * @throws GuzzleException
+     * @return mixed
+     *
      */
     public function delete(): mixed
     {

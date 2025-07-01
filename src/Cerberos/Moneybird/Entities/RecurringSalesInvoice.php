@@ -13,7 +13,13 @@ use Cerberos\Moneybird\Model;
 
 class RecurringSalesInvoice extends Model
 {
-    use FindAll, FindOne, Storable, Removable, Filterable, Synchronizable, Noteable;
+    use FindAll;
+    use FindOne;
+    use Storable;
+    use Removable;
+    use Filterable;
+    use Synchronizable;
+    use Noteable;
 
     /**
      * @var array
@@ -70,7 +76,7 @@ class RecurringSalesInvoice extends Model
      * @var array
      */
     protected array $multipleNestedEntities = [
-        'details'       => [
+        'details' => [
             'entity' => RecurringSalesInvoiceDetail::class,
             'type'   => self::NESTING_TYPE_ARRAY_OF_OBJECTS,
         ],

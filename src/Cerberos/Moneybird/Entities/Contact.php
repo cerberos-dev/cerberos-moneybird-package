@@ -16,7 +16,14 @@ use GuzzleHttp\Exception\GuzzleException;
 
 class Contact extends Model
 {
-    use Search, FindAll, FindOne, Storable, Removable, Filterable, Synchronizable, Noteable;
+    use Search;
+    use FindAll;
+    use FindOne;
+    use Storable;
+    use Removable;
+    use Filterable;
+    use Synchronizable;
+    use Noteable;
 
     /**
      * @var array
@@ -84,7 +91,7 @@ class Contact extends Model
      * @var array
      */
     protected array $multipleNestedEntities = [
-        'custom_fields'  => [
+        'custom_fields' => [
             'entity' => ContactCustomField::class,
             'type'   => self::NESTING_TYPE_NESTED_OBJECTS,
         ],
@@ -97,11 +104,11 @@ class Contact extends Model
     /**
      * @param int|string $customerId
      *
-     * @return Contact
      * @throws ApiException
      * @throws GuzzleException
+     * @return Contact
      */
-    public function findByCustomerId(int|string $customerId): Contact
+    public function findByCustomerId(int | string $customerId): Contact
     {
         $result = $this->connection()->get($this->getEndpoint() . '/customer_id/' . urlencode($customerId));
 

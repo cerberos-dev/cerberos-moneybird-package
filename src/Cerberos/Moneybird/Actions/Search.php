@@ -8,13 +8,11 @@ use GuzzleHttp\Exception\GuzzleException;
 trait Search
 {
     /**
-     * @param      $query
-     * @param null $perPage
-     * @param null $page
+     * @param $query
      *
-     * @return array
      * @throws ApiException
      * @throws GuzzleException
+     * @return array
      */
     public function search($query, $perPage = null, $page = null): array
     {

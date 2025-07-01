@@ -15,7 +15,14 @@ use Cerberos\Moneybird\Model;
 
 class ExternalSalesInvoice extends Model
 {
-    use FindAll, FindOne, Storable, Removable, Filterable, Downloadable, Synchronizable, Attachment;
+    use FindAll;
+    use FindOne;
+    use Storable;
+    use Removable;
+    use Filterable;
+    use Downloadable;
+    use Synchronizable;
+    use Attachment;
 
     /**
      * @var array
@@ -70,7 +77,7 @@ class ExternalSalesInvoice extends Model
      * @var array
      */
     protected array $multipleNestedEntities = [
-        'details'  => [
+        'details' => [
             'entity' => ExternalSalesInvoiceDetail::class,
             'type'   => self::NESTING_TYPE_ARRAY_OF_OBJECTS,
         ],

@@ -5,8 +5,8 @@ namespace Cerberos\Moneybird;
 abstract class Model
 {
     const NESTING_TYPE_ARRAY_OF_OBJECTS = 0;
-    const NESTING_TYPE_NESTED_OBJECTS   = 1;
-    const JSON_OPTIONS                  = JSON_FORCE_OBJECT;
+    const NESTING_TYPE_NESTED_OBJECTS = 1;
+    const JSON_OPTIONS = JSON_FORCE_OBJECT;
 
     /**
      * @var Connection
@@ -119,11 +119,7 @@ abstract class Model
      */
     public function isAttributeDirty($attributeName): bool
     {
-        if (array_key_exists($attributeName, $this->attribute_changes)) {
-            return true;
-        }
-
-        return false;
+        return array_key_exists($attributeName, $this->attribute_changes);
     }
 
     /**
@@ -141,11 +137,7 @@ abstract class Model
      */
     public function __get($key)
     {
-        if (isset($this->attributes[$key])) {
-            return $this->attributes[$key];
-        }
-
-        return null;
+        return $this->attributes[$key] ?? null;
     }
 
     /**
@@ -176,7 +168,7 @@ abstract class Model
     /**
      * @return false|string
      */
-    public function json(): bool|string
+    public function json(): bool | string
     {
         $array = $this->getArrayWithNestedObjects();
 
@@ -186,13 +178,13 @@ abstract class Model
     /**
      * @return false|string
      */
-    public function jsonWithNamespace(): bool|string
+    public function jsonWithNamespace(): bool | string
     {
         if ($this->namespace !== '') {
             return json_encode([$this->namespace => $this->getArrayWithNestedObjects()], static::JSON_OPTIONS);
-        } else {
-            return $this->json();
         }
+
+        return $this->json();
     }
 
     /**
@@ -246,7 +238,7 @@ abstract class Model
      */
     public function collectionFromResult(array $result): array
     {
-        if (count(array_filter(array_keys($result), 'is_string'))) {
+        if (count(array_filter(array_keys($result), 'is_string')) !== 0) {
             $result = [$result];
         }
 
@@ -301,7 +293,7 @@ abstract class Model
      */
     public function getFilterEndpoint(): string
     {
-        return $this->filterEndpoint ?: $this->endpoint;
+        return $this->filterEndpoint !== '' && $this->filterEndpoint !== '0' ? $this->filterEndpoint : $this->endpoint;
     }
 
     /**
@@ -414,11 +406,9 @@ abstract class Model
         $multipleNestedEntities = $this->getMultipleNestedEntities();
 
         foreach ($this->attributes as $attributeName => $attributeValue) {
-            if (!is_object($attributeValue)) {
-                //check if result is changed
-                if ($this->isAttributeDirty($attributeName)) {
-                    $result[$attributeName] = $attributeValue;
-                }
+            //check if result is changed
+            if (!is_object($attributeValue) && $this->isAttributeDirty($attributeName)) {
+                $result[$attributeName] = $attributeValue;
             }
 
             if (array_key_exists($attributeName, $this->getSingleNestedEntities())) {

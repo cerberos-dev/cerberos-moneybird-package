@@ -14,7 +14,12 @@ use GuzzleHttp\Exception\GuzzleException;
 
 class Receipt extends Model
 {
-    use FindAll, FindOne, Storable, Removable, Attachment, Noteable;
+    use FindAll;
+    use FindOne;
+    use Storable;
+    use Removable;
+    use Attachment;
+    use Noteable;
 
     /**
      * @var array
@@ -71,18 +76,18 @@ class Receipt extends Model
      *
      * @param ReceiptPayment $receiptPayment (payment_date and price are required)
      *
-     * @return $this
-     *
      * @throws ApiException
      * @throws GuzzleException
+     * @return $this
+     *
      */
     public function registerPayment(ReceiptPayment $receiptPayment): static
     {
-        if (!isset($receiptPayment->payment_date)) {
+        if (!property_exists($receiptPayment, 'payment_date') || $receiptPayment->payment_date === null) {
             throw new ApiException('Required [payment_date] is missing');
         }
 
-        if (!isset($receiptPayment->price)) {
+        if (!property_exists($receiptPayment, 'price') || $receiptPayment->price === null) {
             throw new ApiException('Required [price] is missing');
         }
 

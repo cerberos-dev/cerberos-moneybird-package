@@ -25,9 +25,9 @@ trait Attachment
      * @param string   $filename The filename of the attachment
      * @param resource $contents A StreamInterface/resource/string, @see http://docs.guzzlephp.org/en/stable/request-options.html?highlight=multipart#multipart
      *
+     * @throws ApiException|GuzzleException
      * @return void
      *
-     * @throws ApiException|GuzzleException
      */
     public function addAttachment($filename, $contents): void
     {

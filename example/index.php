@@ -29,7 +29,7 @@ function getValue($key)
         return $storage[$key];
     }
 
-    return null;
+    return;
 }
 
 /**
@@ -91,7 +91,7 @@ function connect($redirectUrl, $clientId, $clientSecret)
     // Make the client connect and exchange tokens
     try {
         $connection->connect();
-    } catch (\Exception $e) {
+    } catch (Exception $e) {
         throw new Exception('Could not connect to Moneybird: ' . $e->getMessage());
     }
 
@@ -128,6 +128,6 @@ try {
     foreach ($timeEntries as $timeEntry) {
         var_dump($timeEntry);
     }
-} catch (\Exception $e) {
+} catch (Exception $e) {
     echo get_class($e) . ' : ' . $e->getMessage();
 }

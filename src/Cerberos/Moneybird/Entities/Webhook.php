@@ -9,7 +9,9 @@ use Cerberos\Moneybird\Model;
 
 class Webhook extends Model
 {
-    use FindAll, Storable, Removable;
+    use FindAll;
+    use Storable;
+    use Removable;
 
     const JSON_OPTIONS = 0;
 

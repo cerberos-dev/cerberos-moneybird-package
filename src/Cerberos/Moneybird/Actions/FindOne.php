@@ -29,11 +29,11 @@ trait FindOne
     /**
      * @param int|string $id
      *
-     * @return Contact|Estimate|ExternalSalesInvoice|GeneralDocument|GeneralJournalDocument|Identity|ImportMapping|LedgerAccount|Product|Project|PurchaseInvoice|Receipt|RecurringSalesInvoice|SalesInvoice|Subscription|TimeEntry|TypelessDocument
      * @throws ApiException
      * @throws GuzzleException
+     * @return Contact|Estimate|ExternalSalesInvoice|GeneralDocument|GeneralJournalDocument|Identity|ImportMapping|LedgerAccount|Product|Project|PurchaseInvoice|Receipt|RecurringSalesInvoice|SalesInvoice|Subscription|TimeEntry|TypelessDocument
      */
-    public function find(int|string $id): Subscription|TypelessDocument|Estimate|PurchaseInvoice|GeneralDocument|RecurringSalesInvoice|Identity|SalesInvoice|ExternalSalesInvoice|GeneralJournalDocument|LedgerAccount|Contact|TimeEntry|ImportMapping|Receipt|Product|Project
+    public function find(int | string $id): Subscription | TypelessDocument | Estimate | PurchaseInvoice | GeneralDocument | RecurringSalesInvoice | Identity | SalesInvoice | ExternalSalesInvoice | GeneralJournalDocument | LedgerAccount | Contact | TimeEntry | ImportMapping | Receipt | Product | Project
     {
         $result = $this->connection()->get($this->getEndpoint() . '/' . urlencode($id));
 

@@ -13,7 +13,11 @@ use GuzzleHttp\Exception\GuzzleException;
 
 class Product extends Model
 {
-    use Search, FindAll, FindOne, Storable, Removable;
+    use Search;
+    use FindAll;
+    use FindOne;
+    use Storable;
+    use Removable;
 
     /**
      * @var array
@@ -49,11 +53,11 @@ class Product extends Model
     /**
      * @param int|string $identifier
      *
-     * @return Product
      * @throws ApiException
      * @throws GuzzleException
+     * @return Product
      */
-    public function findByIdentifier(int|string $identifier): Product
+    public function findByIdentifier(int | string $identifier): Product
     {
         $result = $this->connection()->get($this->getEndpoint() . '/identifier/' . urlencode($identifier));
 

@@ -12,9 +12,9 @@ trait Filterable
     /**
      * @param array $filters
      *
-     * @return array
      * @throws ApiException
      * @throws GuzzleException
+     * @return array
      */
     public function filter(array $filters): array
     {
@@ -31,9 +31,9 @@ trait Filterable
     /**
      * @param array $filters
      *
-     * @return array
      * @throws ApiException
      * @throws GuzzleException
+     * @return array
      */
     public function filterAll(array $filters): array
     {

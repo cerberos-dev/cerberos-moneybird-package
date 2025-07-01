@@ -10,7 +10,10 @@ use Cerberos\Moneybird\Model;
 
 class Identity extends Model
 {
-    use FindAll, FindOne, Storable, Removable;
+    use FindAll;
+    use FindOne;
+    use Storable;
+    use Removable;
 
     /**
      * @var array

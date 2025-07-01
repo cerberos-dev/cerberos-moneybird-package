@@ -11,7 +11,11 @@ use Cerberos\Moneybird\Model;
 
 class GeneralJournalDocument extends Model
 {
-    use FindAll, FindOne, Storable, Removable, Noteable;
+    use FindAll;
+    use FindOne;
+    use Storable;
+    use Removable;
+    use Noteable;
 
     /**
      * @var array

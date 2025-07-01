@@ -8,7 +8,8 @@ use Cerberos\Moneybird\Model;
 
 class ImportMapping extends Model
 {
-    use FindAll, FindOne;
+    use FindAll;
+    use FindOne;
 
     /**
      * @var string|null

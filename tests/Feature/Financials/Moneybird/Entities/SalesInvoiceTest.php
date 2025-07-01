@@ -55,13 +55,13 @@ class SalesInvoiceTest extends TestCase
      * @throws ApiException
      * @throws GuzzleException
      */
-    public function testSendInvoiceThrowsExceptionWhenNonOptionsPassed()
+    public function testSendInvoiceThrowsExceptionWhenNonOptionsPassed(): void
     {
         try {
             $this->salesInvoice->sendInvoice(false);
 
             self::fail('Should have thrown exception');
-        } catch (InvalidArgumentException $e) {
+        } catch (InvalidArgumentException) {
             $this->addToAssertionCount(1);
         }
 
@@ -69,7 +69,7 @@ class SalesInvoiceTest extends TestCase
             $this->salesInvoice->sendInvoice(new stdClass());
 
             self::fail('Should have thrown exception');
-        } catch (InvalidArgumentException $e) {
+        } catch (InvalidArgumentException) {
             $this->addToAssertionCount(1);
         }
     }
@@ -78,7 +78,7 @@ class SalesInvoiceTest extends TestCase
      * @throws ApiException
      * @throws GuzzleException
      */
-    public function testSendWithoutArguments()
+    public function testSendWithoutArguments(): void
     {
         $this->markTestSkipped();
         $this->connection->patch(new AnyValueToken(), json_encode([
@@ -94,7 +94,7 @@ class SalesInvoiceTest extends TestCase
      * @throws ApiException
      * @throws GuzzleException
      */
-    public function testSendWithMethodAsString()
+    public function testSendWithMethodAsString(): void
     {
         $this->markTestSkipped();
         $this->connection->patch(new AnyValueToken(), json_encode([
@@ -110,7 +110,7 @@ class SalesInvoiceTest extends TestCase
      * @throws ApiException
      * @throws GuzzleException
      */
-    public function testSendWithOptionsObject()
+    public function testSendWithOptionsObject(): void
     {
         $this->markTestSkipped();
         $this->connection->patch(new AnyValueToken(), json_encode([

@@ -27,7 +27,7 @@ class ModelTest extends TestCase
         $this->connection = $this->prophesize(Connection::class);
     }
 
-    public function testMakeFromResponse()
+    public function testMakeFromResponse(): void
     {
         $note = new Note($this->connection->reveal());
 
@@ -50,7 +50,7 @@ class ModelTest extends TestCase
         $this->assertNull($note->fakePropertyThatShouldNotBePopulated);
     }
 
-    public function testMakeFromResponseWithSingleNestedEntities()
+    public function testMakeFromResponseWithSingleNestedEntities(): void
     {
         $salesInvoice = new SalesInvoice($this->connection->reveal());
 
@@ -73,7 +73,7 @@ class ModelTest extends TestCase
         $this->assertEquals($contactId, $salesInvoice->contact->id);
     }
 
-    public function testMakeFromResponseWithMultipleNestedEntities()
+    public function testMakeFromResponseWithMultipleNestedEntities(): void
     {
         $contact = new Contact($this->connection->reveal());
 
@@ -106,7 +106,7 @@ class ModelTest extends TestCase
         }
     }
 
-    public function testRegisterAttributesAsDirty()
+    public function testRegisterAttributesAsDirty(): void
     {
         $invoice = new SalesInvoice($this->connection->reveal());
 

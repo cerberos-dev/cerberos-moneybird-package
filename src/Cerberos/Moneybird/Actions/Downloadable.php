@@ -11,8 +11,8 @@ trait Downloadable
     /**
      * Download as PDF.
      *
-     * @return string PDF file data
      * @throws GuzzleException
+     * @return string          PDF file data
      */
     public function download(): string
     {

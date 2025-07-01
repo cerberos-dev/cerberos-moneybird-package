@@ -28,25 +28,25 @@ trait Storable
     use BaseTrait;
 
     /**
-     * @return bool|mixed
      * @throws ApiException
      * @throws GuzzleException
+     * @return bool|mixed
      */
     public function save(): mixed
     {
         if ($this->exists()) {
             return $this->update();
-        } else {
-            return $this->insert();
         }
+
+        return $this->insert();
     }
 
     /**
-     * @return Contact|Estimate|ExternalSalesInvoice|FinancialStatement|GeneralDocument|GeneralJournalDocument|Identity|LedgerAccount|Product|Project|PurchaseInvoice|Receipt|RecurringSalesInvoice|SalesInvoice|Subscription|TimeEntry|TypelessDocument|Webhook
      * @throws ApiException
      * @throws GuzzleException
+     * @return Contact|Estimate|ExternalSalesInvoice|FinancialStatement|GeneralDocument|GeneralJournalDocument|Identity|LedgerAccount|Product|Project|PurchaseInvoice|Receipt|RecurringSalesInvoice|SalesInvoice|Subscription|TimeEntry|TypelessDocument|Webhook
      */
-    public function insert(): Subscription|TypelessDocument|Estimate|PurchaseInvoice|GeneralDocument|RecurringSalesInvoice|FinancialStatement|Identity|SalesInvoice|ExternalSalesInvoice|GeneralJournalDocument|LedgerAccount|Contact|TimeEntry|Receipt|Product|Project|Webhook
+    public function insert(): Subscription | TypelessDocument | Estimate | PurchaseInvoice | GeneralDocument | RecurringSalesInvoice | FinancialStatement | Identity | SalesInvoice | ExternalSalesInvoice | GeneralJournalDocument | LedgerAccount | Contact | TimeEntry | Receipt | Product | Project | Webhook
     {
         $result = $this->connection()->post($this->getEndpoint(), $this->jsonWithNamespace());
 
@@ -58,11 +58,11 @@ trait Storable
     }
 
     /**
-     * @return bool|Contact|Estimate|ExternalSalesInvoice|FinancialStatement|GeneralDocument|GeneralJournalDocument|Identity|LedgerAccount|Product|Project|PurchaseInvoice|Receipt|RecurringSalesInvoice|SalesInvoice|Subscription|TimeEntry|TypelessDocument|Webhook
      * @throws ApiException
      * @throws GuzzleException
+     * @return bool|Contact|Estimate|ExternalSalesInvoice|FinancialStatement|GeneralDocument|GeneralJournalDocument|Identity|LedgerAccount|Product|Project|PurchaseInvoice|Receipt|RecurringSalesInvoice|SalesInvoice|Subscription|TimeEntry|TypelessDocument|Webhook
      */
-    public function update(): Subscription|TypelessDocument|Estimate|PurchaseInvoice|GeneralDocument|RecurringSalesInvoice|FinancialStatement|Identity|SalesInvoice|bool|ExternalSalesInvoice|GeneralJournalDocument|LedgerAccount|Contact|TimeEntry|Receipt|Product|Project|Webhook
+    public function update(): Subscription | TypelessDocument | Estimate | PurchaseInvoice | GeneralDocument | RecurringSalesInvoice | FinancialStatement | Identity | SalesInvoice | bool | ExternalSalesInvoice | GeneralJournalDocument | LedgerAccount | Contact | TimeEntry | Receipt | Product | Project | Webhook
     {
         $result = $this->connection()->patch($this->getEndpoint() . '/' . urlencode($this->id), $this->jsonWithNamespace());
 
