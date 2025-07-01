@@ -11,7 +11,11 @@ use Cerberos\Moneybird\Model;
 
 class TypelessDocument extends Model
 {
-    use Attachment, FindAll, FindOne, Storable, Removable;
+    use Attachment;
+    use FindAll;
+    use FindOne;
+    use Storable;
+    use Removable;
 
     /**
      * @var array

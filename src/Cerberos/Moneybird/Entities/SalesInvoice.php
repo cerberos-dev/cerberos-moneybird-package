@@ -20,7 +20,15 @@ use InvalidArgumentException;
 
 class SalesInvoice extends Model
 {
-    use FindAll, FindOne, Storable, Removable, Filterable, Downloadable, Synchronizable, Attachment, Noteable;
+    use FindAll;
+    use FindOne;
+    use Storable;
+    use Removable;
+    use Filterable;
+    use Downloadable;
+    use Synchronizable;
+    use Attachment;
+    use Noteable;
 
     /**
      * @var array
@@ -104,23 +112,23 @@ class SalesInvoice extends Model
             'entity' => SalesInvoiceCustomField::class,
             'type'   => self::NESTING_TYPE_ARRAY_OF_OBJECTS,
         ],
-        'details'       => [
+        'details' => [
             'entity' => SalesInvoiceDetail::class,
             'type'   => self::NESTING_TYPE_ARRAY_OF_OBJECTS,
         ],
-        'payments'      => [
+        'payments' => [
             'entity' => SalesInvoicePayment::class,
             'type'   => self::NESTING_TYPE_ARRAY_OF_OBJECTS,
         ],
-        'notes'         => [
+        'notes' => [
             'entity' => Note::class,
             'type'   => self::NESTING_TYPE_ARRAY_OF_OBJECTS,
         ],
-        'events'        => [
+        'events' => [
             'entity' => SalesInvoiceEvent::class,
             'type'   => self::NESTING_TYPE_ARRAY_OF_OBJECTS,
         ],
-        'tax_totals'    => [
+        'tax_totals' => [
             'entity' => SalesInvoiceTaxTotal::class,
             'type'   => self::NESTING_TYPE_ARRAY_OF_OBJECTS,
         ],
@@ -131,9 +139,9 @@ class SalesInvoice extends Model
      *
      * @param $deliveryMethodOrOptions
      *
-     * @return $this
      * @throws ApiException
      * @throws GuzzleException
+     * @return $this
      */
     public function sendInvoice($deliveryMethodOrOptions = SendInvoiceOptions::METHOD_EMAIL): static
     {
@@ -146,9 +154,9 @@ class SalesInvoice extends Model
         unset($deliveryMethodOrOptions);
 
         if (!$options instanceof SendInvoiceOptions) {
-            $options = is_object($options) ? get_class($options) : gettype($options);
+            $options = get_debug_type($options);
 
-            throw new InvalidArgumentException("Expected string or options instance. Received: '$options'");
+            throw new InvalidArgumentException("Expected string or options instance. Received: '{$options}'");
         }
 
         $response = $this->connection->patch($this->endpoint . '/' . $this->id . '/send_invoice', json_encode([
@@ -167,12 +175,12 @@ class SalesInvoice extends Model
      *
      * @param int|string $invoiceId
      *
-     * @return static
-     *
      * @throws ApiException
      * @throws GuzzleException
+     * @return static
+     *
      */
-    public function findByInvoiceId(int|string $invoiceId): static
+    public function findByInvoiceId(int | string $invoiceId): static
     {
         $result = $this->connection()->get($this->getEndpoint() . '/find_by_invoice_id/' . urlencode($invoiceId));
 
@@ -184,18 +192,18 @@ class SalesInvoice extends Model
      *
      * @param SalesInvoicePayment $salesInvoicePayment (payment_date and price are required)
      *
-     * @return $this
-     *
      * @throws ApiException
      * @throws GuzzleException
+     * @return $this
+     *
      */
     public function registerPayment(SalesInvoicePayment $salesInvoicePayment): static
     {
-        if (!isset($salesInvoicePayment->payment_date)) {
+        if (!property_exists($salesInvoicePayment, 'payment_date') || $salesInvoicePayment->payment_date === null) {
             throw new ApiException('Required [payment_date] is missing');
         }
 
-        if (!isset($salesInvoicePayment->price)) {
+        if (!property_exists($salesInvoicePayment, 'price') || $salesInvoicePayment->price === null) {
             throw new ApiException('Required [price] is missing');
         }
 
@@ -212,14 +220,14 @@ class SalesInvoice extends Model
      *
      * @param SalesInvoicePayment $salesInvoicePayment (id is required)
      *
-     * @return $this
-     *
      * @throws ApiException
      * @throws GuzzleException
+     * @return $this
+     *
      */
     public function deletePayment(SalesInvoicePayment $salesInvoicePayment): static
     {
-        if (!isset($salesInvoicePayment->id)) {
+        if (!property_exists($salesInvoicePayment, 'id') || $salesInvoicePayment->id === null) {
             throw new ApiException('Required [id] is missing');
         }
 
@@ -231,10 +239,10 @@ class SalesInvoice extends Model
     /**
      * Create a credit invoice based on the current invoice.
      *
-     * @return SalesInvoice
-     *
      * @throws ApiException
      * @throws GuzzleException
+     * @return SalesInvoice
+     *
      */
     public function duplicateToCreditInvoice(): SalesInvoice
     {
@@ -249,10 +257,10 @@ class SalesInvoice extends Model
     /**
      * Register a payment for a credit invoice.
      *
-     * @return SalesInvoice
-     *
      * @throws ApiException
      * @throws GuzzleException
+     * @return SalesInvoice
+     *
      */
     public function registerPaymentForCreditInvoice(): SalesInvoice
     {
@@ -267,17 +275,17 @@ class SalesInvoice extends Model
     /**
      * Pauses the sales invoice. The automatic workflow steps will not be executed while the sales invoice is paused.
      *
-     * @return bool
-     *
      * @throws ApiException
      * @throws GuzzleException
+     * @return bool
+     *
      */
     public function pauseWorkflow(): bool
     {
         try {
             $this->connection()->post($this->endpoint . '/' . $this->id . '/pause', json_encode([]));
         } catch (ApiException $exception) {
-            if (strpos($exception->getMessage(), 'The sales_invoice is already paused') !== false) {
+            if (str_contains($exception->getMessage(), 'The sales_invoice is already paused')) {
                 return true; // Everything is fine since the sales invoice was already paused we don't need an error.
             }
 
@@ -290,17 +298,17 @@ class SalesInvoice extends Model
     /**
      * Resumes the sales invoice. The automatic workflow steps will execute again after resuming.
      *
-     * @return bool
-     *
      * @throws ApiException
      * @throws GuzzleException
+     * @return bool
+     *
      */
     public function resumeWorkflow(): bool
     {
         try {
             $this->connection()->post($this->endpoint . '/' . $this->id . '/resume', json_encode([]));
         } catch (ApiException $exception) {
-            if (strpos($exception->getMessage(), "The sales_invoice isn't paused") !== false) {
+            if (str_contains($exception->getMessage(), "The sales_invoice isn't paused")) {
                 return true; // Everything is fine since the sales invoice wasn't paused we don't need an error.
             }
 
@@ -313,10 +321,10 @@ class SalesInvoice extends Model
     /**
      * Download as UBL.
      *
-     * @return string PDF file data
-     *
      * @throws GuzzleException
      * @throws TooManyRequestsException
+     * @return string                   PDF file data
+     *
      */
     public function downloadUbl(): string
     {
@@ -328,10 +336,10 @@ class SalesInvoice extends Model
     /**
      * Download as Packaging slip.
      *
-     * @return string PDF file data
-     *
      * @throws GuzzleException
      * @throws TooManyRequestsException
+     * @return string                   PDF file data
+     *
      */
     public function downloadPackageSlip(): string
     {

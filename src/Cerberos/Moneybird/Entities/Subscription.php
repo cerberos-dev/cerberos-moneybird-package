@@ -11,7 +11,11 @@ use Cerberos\Moneybird\Model;
 
 class Subscription extends Model
 {
-    use FindAll, FindOne, Storable, Removable, Filterable;
+    use FindAll;
+    use FindOne;
+    use Storable;
+    use Removable;
+    use Filterable;
 
     /**
      * @var array

@@ -15,9 +15,9 @@ trait Noteable
      *
      * @param Note $note
      *
-     * @return $this
      * @throws ApiException
      * @throws GuzzleException
+     * @return $this
      */
     public function addNote(Note $note): static
     {

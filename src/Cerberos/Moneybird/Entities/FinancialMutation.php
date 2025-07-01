@@ -12,7 +12,9 @@ use GuzzleHttp\Exception\GuzzleException;
 
 class FinancialMutation extends Model
 {
-    use FindAll, Filterable, Synchronizable;
+    use FindAll;
+    use Filterable;
+    use Synchronizable;
 
     /**
      * @see https://developer.moneybird.com/api/financial_mutations/#patch_financial_mutations_id_link_booking
@@ -93,19 +95,18 @@ class FinancialMutation extends Model
      * @param string|null       $description
      * @param string|null       $paymentBatchIdentifier
      *
-     * @return mixed
      * @throws ApiException
      * @throws GuzzleException
+     * @return mixed
      */
     public function linkToBooking(
         string $bookingType,
-        int|string $bookingId,
-        float|string $priceBase,
-        float|string $price = null,
+        int | string $bookingId,
+        float | string $priceBase,
+        float | string $price = null,
         string $description = null,
         string $paymentBatchIdentifier = null
-    ): mixed
-    {
+    ): mixed {
         if (!in_array($bookingType, self::$allowedBookingTypesToLinkToFinancialMutation, true)) {
             throw new ApiException('Invalid booking type to link to FinancialMutation, allowed booking types: '
                 . implode(', ', self::$allowedBookingTypesToLinkToFinancialMutation));
@@ -132,12 +133,12 @@ class FinancialMutation extends Model
      * @param string     $bookingType
      * @param int|string $bookingId
      *
-     * @return mixed
      * @throws ApiException
      * @throws TooManyRequestsException
      * @throws GuzzleException
+     * @return mixed
      */
-    public function unlinkFromBooking(string $bookingType, int|string $bookingId): mixed
+    public function unlinkFromBooking(string $bookingType, int | string $bookingId): mixed
     {
         if (!in_array($bookingType, self::$allowedBookingTypesToUnlinkFromFinancialMutation, true)) {
             throw new ApiException('Invalid booking type to unlink from FinancialMutation, allowed booking types: '

@@ -35,7 +35,7 @@ class ConnectionTest extends TestCase
      * @throws TooManyRequestsException
      * @throws GuzzleException
      */
-    public function testClientIncludesAuthenticationHeader()
+    public function testClientIncludesAuthenticationHeader(): void
     {
         $connection = $this->getConnectionForTesting();
 
@@ -52,7 +52,7 @@ class ConnectionTest extends TestCase
      * @throws TooManyRequestsException
      * @throws GuzzleException
      */
-    public function testClientIncludesJsonHeaders()
+    public function testClientIncludesJsonHeaders(): void
     {
         $connection = $this->getConnectionForTesting();
 
@@ -70,7 +70,7 @@ class ConnectionTest extends TestCase
      * @throws TooManyRequestsException
      * @throws GuzzleException
      */
-    public function testClientTriesToGetAccessTokenWhenNoneGiven()
+    public function testClientTriesToGetAccessTokenWhenNoneGiven(): void
     {
         $connection = $this->getConnectionForTesting();
         $connection->setAccessToken(null);
@@ -94,7 +94,7 @@ class ConnectionTest extends TestCase
      * @throws TooManyRequestsException
      * @throws GuzzleException
      */
-    public function testClientContinuesWithRequestAfterGettingAccessTokenWhenNoneGiven()
+    public function testClientContinuesWithRequestAfterGettingAccessTokenWhenNoneGiven(): void
     {
         $connection = $this->getConnectionForTesting();
         $connection->setAccessToken(null);
@@ -111,7 +111,7 @@ class ConnectionTest extends TestCase
      * @throws ApiException
      * @throws GuzzleException
      */
-    public function testClientDetectsApiRateLimit()
+    public function testClientDetectsApiRateLimit(): void
     {
         $this->markTestIncomplete('TooManyRequestsException is not triggered correctly for some reason ');
 
@@ -151,10 +151,8 @@ class ConnectionTest extends TestCase
         $connection = new Connection();
         $connection->insertMiddleWare($history);
 
-        if (count($additionalMiddlewares) > 0) {
-            foreach ($additionalMiddlewares as $additionalMiddleware) {
-                $connection->insertMiddleWare($additionalMiddleware);
-            }
+        foreach ($additionalMiddlewares as $additionalMiddleware) {
+            $connection->insertMiddleWare($additionalMiddleware);
         }
         $connection->setClientId('testClientId');
         $connection->setClientSecret('testClientSecret');
@@ -171,7 +169,7 @@ class ConnectionTest extends TestCase
      *
      * @return mixed
      */
-    private function getRequestFromHistoryContainer($requestNumber = 0): mixed
+    private function getRequestFromHistoryContainer(int $requestNumber = 0): mixed
     {
         $this->assertArrayHasKey($requestNumber, $this->container);
         $this->assertArrayHasKey('request', $this->container[$requestNumber]);
@@ -187,15 +185,15 @@ class ConnectionTest extends TestCase
      *
      * @return Closure
      */
-    private function getMiddleWareThatAddsResponseHeader($header, $value): Closure
+    private function getMiddleWareThatAddsResponseHeader(string $header, int $value): Closure
     {
-        return function (callable $handler) use ($header, $value) {
+        return function (callable $handler) use ($header, $value): Closure {
             return function (RequestInterface $request, array $options) use ($handler, $header, $value) {
-                /* @var PromiseInterface $promise */
+                // @var PromiseInterface $promise
                 $promise = $handler($request, $options);
 
                 return $promise->then(
-                    function (ResponseInterface $response) use ($header, $value) {
+                    function (ResponseInterface $response) use ($header, $value): \Psr\Http\Message\MessageInterface {
                         return $response->withHeader($header, $value);
                     }
                 );
@@ -210,9 +208,9 @@ class ConnectionTest extends TestCase
      */
     private function getMiddleWareThatThrowsBadResponseException($statusCode = null): Closure
     {
-        return function (callable $handler) use ($statusCode) {
+        return function (callable $handler) use ($statusCode): Closure {
             return function (RequestInterface $request, array $options) use ($handler, $statusCode) {
-                /* @var PromiseInterface $promise */
+                // @var PromiseInterface $promise
                 $promise = $handler($request, $options);
 
                 return $promise->then(

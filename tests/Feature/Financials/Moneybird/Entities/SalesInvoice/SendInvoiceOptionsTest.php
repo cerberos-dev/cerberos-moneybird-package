@@ -20,7 +20,7 @@ class SendInvoiceOptionsTest extends TestCase
         SendInvoiceOptions::METHOD_MANUAL,
     ];
 
-    public function testConstructorArguments()
+    public function testConstructorArguments(): void
     {
         $options = new SendInvoiceOptions(SendInvoiceOptions::METHOD_POST, 'my-email@foo.com', 'my message');
 
@@ -29,14 +29,14 @@ class SendInvoiceOptionsTest extends TestCase
         self::assertEquals('my message', $options->getEmailMessage());
     }
 
-    public function testDefaultMethodIsEmail()
+    public function testDefaultMethodIsEmail(): void
     {
         $options = new SendInvoiceOptions();
 
         self::assertEquals(SendInvoiceOptions::METHOD_EMAIL, $options->getMethod());
     }
 
-    public function testMethodIsValidated()
+    public function testMethodIsValidated(): void
     {
         try {
             new SendInvoiceOptions('some-invalid-method');
@@ -51,14 +51,14 @@ class SendInvoiceOptionsTest extends TestCase
         }
     }
 
-    public function testIsSerializable()
+    public function testIsSerializable(): void
     {
         $options = new SendInvoiceOptions();
 
         self::assertInstanceOf(JsonSerializable::class, $options);
     }
 
-    public function testSerializes()
+    public function testSerializes(): void
     {
         $options = new SendInvoiceOptions(null, 'test@foo.com', 'my message');
         $options->setDeliverUbl(true);
@@ -75,7 +75,7 @@ class SendInvoiceOptionsTest extends TestCase
         self::assertEquals('2018-01-01', $json['invoice_date']);
     }
 
-    public function testOmitsNullValues()
+    public function testOmitsNullValues(): void
     {
         $options = new SendInvoiceOptions(null, 'test@foo.com');
 
@@ -95,7 +95,7 @@ class SendInvoiceOptionsTest extends TestCase
         }
     }
 
-    public function testGetSetEmailAddress()
+    public function testGetSetEmailAddress(): void
     {
         $options = new SendInvoiceOptions();
         self::assertNull($options->getEmailAddress());
@@ -104,7 +104,7 @@ class SendInvoiceOptionsTest extends TestCase
         self::assertEquals('foo@bar.com', $options->getEmailAddress());
     }
 
-    public function testGetSetEmailMessage()
+    public function testGetSetEmailMessage(): void
     {
         $options = new SendInvoiceOptions();
         self::assertNull($options->getEmailAddress());
@@ -113,7 +113,7 @@ class SendInvoiceOptionsTest extends TestCase
         self::assertEquals('my message', $options->getEmailMessage());
     }
 
-    public function testGetSetSchedule()
+    public function testGetSetSchedule(): void
     {
         $options = new SendInvoiceOptions();
         self::assertFalse($options->isScheduled());
@@ -126,7 +126,7 @@ class SendInvoiceOptionsTest extends TestCase
         self::assertTrue($options->isScheduled());
     }
 
-    public function testGetSetDeliverUbl()
+    public function testGetSetDeliverUbl(): void
     {
         $options = new SendInvoiceOptions();
         self::assertNull($options->getDeliverUbl());
@@ -135,7 +135,7 @@ class SendInvoiceOptionsTest extends TestCase
         self::assertTrue($options->getDeliverUbl());
     }
 
-    public function testGetSetMethod()
+    public function testGetSetMethod(): void
     {
         $options = new SendInvoiceOptions();
 
@@ -145,7 +145,7 @@ class SendInvoiceOptionsTest extends TestCase
         }
     }
 
-    public function testGetSetMergeable()
+    public function testGetSetMergeable(): void
     {
         $options = new SendInvoiceOptions();
         self::assertNull($options->getMergeable());

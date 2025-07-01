@@ -16,7 +16,14 @@ use GuzzleHttp\Exception\GuzzleException;
 
 class PurchaseInvoice extends Model
 {
-    use FindAll, FindOne, Storable, Removable, Filterable, Synchronizable, Attachment, Noteable;
+    use FindAll;
+    use FindOne;
+    use Storable;
+    use Removable;
+    use Filterable;
+    use Synchronizable;
+    use Attachment;
+    use Noteable;
 
     /**
      * @var array
@@ -70,7 +77,7 @@ class PurchaseInvoice extends Model
      * @var array
      */
     protected array $multipleNestedEntities = [
-        'details'  => [
+        'details' => [
             'entity' => PurchaseInvoiceDetail::class,
             'type'   => self::NESTING_TYPE_ARRAY_OF_OBJECTS,
         ],
@@ -85,18 +92,18 @@ class PurchaseInvoice extends Model
      *
      * @param PurchaseInvoicePayment $purchaseInvoicePayment (payment_date and price are required)
      *
-     * @return $this
-     *
      * @throws ApiException
      * @throws GuzzleException
+     * @return $this
+     *
      */
     public function registerPayment(PurchaseInvoicePayment $purchaseInvoicePayment): static
     {
-        if (!isset($purchaseInvoicePayment->payment_date)) {
+        if (!property_exists($purchaseInvoicePayment, 'payment_date') || $purchaseInvoicePayment->payment_date === null) {
             throw new ApiException('Required [payment_date] is missing');
         }
 
-        if (!isset($purchaseInvoicePayment->price)) {
+        if (!property_exists($purchaseInvoicePayment, 'price') || $purchaseInvoicePayment->price === null) {
             throw new ApiException('Required [price] is missing');
         }
 

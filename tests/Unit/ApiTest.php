@@ -22,19 +22,19 @@ class ApiTest extends TestCase
     /**
      * @var Moneybird
      */
-    private $client;
+    private Moneybird $client;
 
     /**
      * @var Connection
      */
-    private $connection;
+    private MockObject $connection;
 
     /**
      * Same as self::$connection, only differently typed to enable autocompletion in IDE.
      *
      * @var MockObject
      */
-    private $mockedConnection;
+    private MockObject $mockedConnection;
 
     protected function setUp(): void
     {
@@ -44,12 +44,12 @@ class ApiTest extends TestCase
         $this->client = new Moneybird($this->connection);
     }
 
-    public function testConnectionIsProperlyMocked()
+    public function testConnectionIsProperlyMocked(): void
     {
         $this->assertInstanceOf(Connection::class, $this->connection);
     }
 
-    public function testTestModeIsProperlySet()
+    public function testTestModeIsProperlySet(): void
     {
         $this->mockedConnection->expects($this->once())
             ->method('isTesting')
@@ -58,7 +58,7 @@ class ApiTest extends TestCase
         $this->assertTrue($this->connection->isTesting());
     }
 
-    public function testSetAdministrationIdSet()
+    public function testSetAdministrationIdSet(): void
     {
         $administrationId = 123456789;
 
@@ -74,7 +74,7 @@ class ApiTest extends TestCase
      * @throws TooManyRequestsException
      * @throws GuzzleException
      */
-    public function testFindAllWebHooksTriggersHttpGet()
+    public function testFindAllWebHooksTriggersHttpGet(): void
     {
         $attributes = [
             'url' => 'https://www.domain.ext',
@@ -92,7 +92,7 @@ class ApiTest extends TestCase
      * @throws ApiException
      * @throws GuzzleException
      */
-    public function testStoreWebHookTriggersHttpPost()
+    public function testStoreWebHookTriggersHttpPost(): void
     {
         $attributes = [
             'url' => 'https://www.domain.ext',
@@ -106,7 +106,7 @@ class ApiTest extends TestCase
         $webHook->save();
     }
 
-    public function testFinancialMutationLinkToBooking()
+    public function testFinancialMutationLinkToBooking(): void
     {
         $financialMutationId = 1;
         $bookingType = 'LedgerAccount';
@@ -130,7 +130,7 @@ class ApiTest extends TestCase
         $this->assertEquals($httpResponseCode, $financialMutation->linkToBooking($bookingType, $bookingId, $priceBase));
     }
 
-    public function testFinancialMutationUnlinkFromBooking()
+    public function testFinancialMutationUnlinkFromBooking(): void
     {
         $financialMutationId = 1;
         $bookingType = 'LedgerAccountBooking';

@@ -14,11 +14,17 @@ use Cerberos\Moneybird\Actions\Synchronizable;
 use Cerberos\Moneybird\Entities\SalesInvoice\SendInvoiceOptions;
 use Cerberos\Moneybird\Model;
 use GuzzleHttp\Exception\GuzzleException;
-use InvalidArgumentException;
 
 class Estimate extends Model
 {
-    use FindAll, FindOne, Storable, Removable, Synchronizable, Filterable, Downloadable, Noteable;
+    use FindAll;
+    use FindOne;
+    use Storable;
+    use Removable;
+    use Synchronizable;
+    use Filterable;
+    use Downloadable;
+    use Noteable;
 
     /**
      * @var array
@@ -88,19 +94,19 @@ class Estimate extends Model
             'entity' => SalesInvoiceCustomField::class,
             'type'   => self::NESTING_TYPE_ARRAY_OF_OBJECTS,
         ],
-        'details'       => [
+        'details' => [
             'entity' => SalesInvoiceDetail::class,
             'type'   => self::NESTING_TYPE_ARRAY_OF_OBJECTS,
         ],
-        'notes'         => [
+        'notes' => [
             'entity' => Note::class,
             'type'   => self::NESTING_TYPE_ARRAY_OF_OBJECTS,
         ],
-        'events'        => [
+        'events' => [
             'entity' => EstimateEvent::class,
             'type'   => self::NESTING_TYPE_ARRAY_OF_OBJECTS,
         ],
-        'tax_totals'    => [
+        'tax_totals' => [
             'entity' => EstimateTaxTotal::class,
             'type'   => self::NESTING_TYPE_ARRAY_OF_OBJECTS,
         ],
@@ -111,11 +117,11 @@ class Estimate extends Model
      *
      * @param SendInvoiceOptions|string $deliveryMethodOrOptions
      *
-     * @return $this
      * @throws ApiException
      * @throws GuzzleException
+     * @return $this
      */
-    public function sendEstimate(SendInvoiceOptions|string $deliveryMethodOrOptions = SendInvoiceOptions::METHOD_EMAIL): static
+    public function sendEstimate(SendInvoiceOptions | string $deliveryMethodOrOptions = SendInvoiceOptions::METHOD_EMAIL): static
     {
         if (is_string($deliveryMethodOrOptions)) {
             $options = new SendInvoiceOptions($deliveryMethodOrOptions);
@@ -124,11 +130,6 @@ class Estimate extends Model
         }
 
         unset($deliveryMethodOrOptions);
-
-        if (!$options instanceof SendInvoiceOptions) {
-            $options = is_object($options) ? get_class($options) : gettype($options);
-            throw new InvalidArgumentException("Expected string or options instance. Received: '$options'");
-        }
 
         $response = $this->connection->patch($this->endpoint . '/' . $this->id . '/send_estimate', json_encode([
             'estimate_sending' => $options->jsonSerialize(),

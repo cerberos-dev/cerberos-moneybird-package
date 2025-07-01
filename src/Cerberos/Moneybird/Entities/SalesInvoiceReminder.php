@@ -35,9 +35,9 @@ class SalesInvoiceReminder extends Model
     /**
      * Pushes the reminder.
      *
-     * @return void
      * @throws ApiException
      * @throws GuzzleException
+     * @return void
      */
     public function send(): void
     {
@@ -47,9 +47,9 @@ class SalesInvoiceReminder extends Model
         $aReminder['sales_invoice_ids'] = array_map(function ($salesInvoice) {
             if (is_object($salesInvoice)) {
                 return $salesInvoice->id;
-            } else {
-                return $salesInvoice;
             }
+
+            return $salesInvoice;
         }, $this->sales_invoices);
         unset($aReminder['sales_invoices']);
 

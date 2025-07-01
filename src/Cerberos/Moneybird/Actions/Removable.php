@@ -10,10 +10,10 @@ trait Removable
     use BaseTrait;
 
     /**
-     * @return mixed
-     *
      * @throws ApiException
      * @throws GuzzleException
+     * @return mixed
+     *
      */
     public function delete(): mixed
     {

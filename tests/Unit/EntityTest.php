@@ -54,207 +54,207 @@ use ReflectionClass;
  */
 class EntityTest extends TestCase
 {
-    public function testAdministrationEntity()
+    public function testAdministrationEntity(): void
     {
         $this->performEntityTest(Administration::class);
     }
 
-    public function testContactEntity()
+    public function testContactEntity(): void
     {
         $this->performEntityTest(Contact::class);
     }
 
-    public function testContactCustomFieldEntity()
+    public function testContactCustomFieldEntity(): void
     {
         $this->performEntityTest(ContactCustomField::class);
     }
 
-    public function testCustomFieldEntity()
+    public function testCustomFieldEntity(): void
     {
         $this->performEntityTest(CustomField::class);
     }
 
-    public function testDocumentStyleEntity()
+    public function testDocumentStyleEntity(): void
     {
         $this->performEntityTest(DocumentStyle::class);
     }
 
-    public function testEstimateEntity()
+    public function testEstimateEntity(): void
     {
         $this->performEntityTest(Estimate::class);
     }
 
-    public function testExternalSalesInvoice()
+    public function testExternalSalesInvoice(): void
     {
         $this->performEntityTest(ExternalSalesInvoice::class);
     }
 
-    public function testExternalSalesInvoiceDetail()
+    public function testExternalSalesInvoiceDetail(): void
     {
         $this->performEntityTest(ExternalSalesInvoiceDetail::class);
     }
 
-    public function testExternalSalesInvoicePayment()
+    public function testExternalSalesInvoicePayment(): void
     {
         $this->performEntityTest(ExternalSalesInvoicePayment::class);
     }
 
-    public function testFinancialAccountEntity()
+    public function testFinancialAccountEntity(): void
     {
         $this->performEntityTest(FinancialAccount::class);
     }
 
-    public function testFinancialMutationEntity()
+    public function testFinancialMutationEntity(): void
     {
         $this->performEntityTest(FinancialMutation::class);
     }
 
-    public function testGeneralDocumentEntity()
+    public function testGeneralDocumentEntity(): void
     {
         $this->performEntityTest(GeneralDocument::class);
     }
 
-    public function testGeneralJournalDocumentEntity()
+    public function testGeneralJournalDocumentEntity(): void
     {
         $this->performEntityTest(GeneralJournalDocument::class);
     }
 
-    public function testIdentityEntity()
+    public function testIdentityEntity(): void
     {
         $this->performEntityTest(Identity::class);
     }
 
-    public function testImportMappingEntity()
+    public function testImportMappingEntity(): void
     {
         $this->performEntityTest(ImportMapping::class);
     }
 
-    public function testLedgerAccountEntity()
+    public function testLedgerAccountEntity(): void
     {
         $this->performEntityTest(LedgerAccount::class);
     }
 
-    public function testProductEntity()
+    public function testProductEntity(): void
     {
         $this->performEntityTest(Product::class);
     }
 
-    public function testProjectEntity()
+    public function testProjectEntity(): void
     {
         $this->performEntityTest(Project::class);
     }
 
-    public function testPurchaseInvoiceEntity()
+    public function testPurchaseInvoiceEntity(): void
     {
         $this->performEntityTest(PurchaseInvoice::class);
     }
 
-    public function testPurchaseDetailInvoiceEntity()
+    public function testPurchaseDetailInvoiceEntity(): void
     {
         $this->performEntityTest(PurchaseInvoiceDetail::class);
     }
 
-    public function testReceiptEntity()
+    public function testReceiptEntity(): void
     {
         $this->performEntityTest(Receipt::class);
     }
 
-    public function testReceiptDetailEntity()
+    public function testReceiptDetailEntity(): void
     {
         $this->performEntityTest(ReceiptDetail::class);
     }
 
-    public function testReceiptPaymentEntity()
+    public function testReceiptPaymentEntity(): void
     {
         $this->performEntityTest(ReceiptPayment::class);
     }
 
-    public function testRecurringSalesInvoiceEntity()
+    public function testRecurringSalesInvoiceEntity(): void
     {
         $this->performEntityTest(RecurringSalesInvoice::class);
     }
 
-    public function testRecurringSalesInvoiceDetailEntity()
+    public function testRecurringSalesInvoiceDetailEntity(): void
     {
         $this->performEntityTest(RecurringSalesInvoiceDetail::class);
     }
 
-    public function testRecurringSalesInvoiceCustomFieldEntity()
+    public function testRecurringSalesInvoiceCustomFieldEntity(): void
     {
         $this->performEntityTest(RecurringSalesInvoiceCustomField::class);
     }
 
-    public function testSalesInvoiceEntity()
+    public function testSalesInvoiceEntity(): void
     {
         $this->performEntityTest(SalesInvoice::class);
     }
 
-    public function testSalesInvoiceDetailEntity()
+    public function testSalesInvoiceDetailEntity(): void
     {
         $this->performEntityTest(SalesInvoiceDetail::class);
     }
 
-    public function testSalesInvoiceEventEntity()
+    public function testSalesInvoiceEventEntity(): void
     {
         $this->performEntityTest(SalesInvoiceEvent::class);
     }
 
-    public function testSalesInvoicePaymentEntity()
+    public function testSalesInvoicePaymentEntity(): void
     {
         $this->performEntityTest(SalesInvoicePayment::class);
     }
 
-    public function testSalesInvoiceReminderEntity()
+    public function testSalesInvoiceReminderEntity(): void
     {
         $this->performEntityTest(SalesInvoiceReminder::class);
     }
 
-    public function testSalesInvoiceTaxTotalEntity()
+    public function testSalesInvoiceTaxTotalEntity(): void
     {
         $this->performEntityTest(SalesInvoiceTaxTotal::class);
     }
 
-    public function testSubscriptionEntity()
+    public function testSubscriptionEntity(): void
     {
         $this->performEntityTest(Subscription::class);
     }
 
-    public function testNoteEntity()
+    public function testNoteEntity(): void
     {
         $this->performEntityTest(Note::class);
     }
 
-    public function testTaxRateEntity()
+    public function testTaxRateEntity(): void
     {
         $this->performEntityTest(TaxRate::class);
     }
 
-    public function testTimeEntryEntity()
+    public function testTimeEntryEntity(): void
     {
         $this->performEntityTest(TimeEntry::class);
     }
 
-    public function testTypelessDocumentEntity()
+    public function testTypelessDocumentEntity(): void
     {
         $this->performEntityTest(TypelessDocument::class);
     }
 
-    public function testUserEntity()
+    public function testUserEntity(): void
     {
         $this->performEntityTest(User::class);
     }
 
-    public function testWebhookEntity()
+    public function testWebhookEntity(): void
     {
         $this->performEntityTest(Webhook::class);
     }
 
-    public function testWorkflowEntity()
+    public function testWorkflowEntity(): void
     {
         $this->performEntityTest(Workflow::class);
     }
 
-    public function testMoneybirdClass()
+    public function testMoneybirdClass(): void
     {
         $reflectionClass = new ReflectionClass(Moneybird::class);
 
@@ -266,7 +266,7 @@ class EntityTest extends TestCase
     /**
      * @param $entityName
      */
-    private function performEntityTest($entityName)
+    private function performEntityTest(string $entityName): void
     {
         $reflectionClass = new ReflectionClass($entityName);
 

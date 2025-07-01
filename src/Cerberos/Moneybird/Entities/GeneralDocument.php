@@ -12,7 +12,12 @@ use Cerberos\Moneybird\Model;
 
 class GeneralDocument extends Model
 {
-    use FindAll, FindOne, Storable, Removable, Synchronizable, Noteable;
+    use FindAll;
+    use FindOne;
+    use Storable;
+    use Removable;
+    use Synchronizable;
+    use Noteable;
 
     /**
      * @var array
