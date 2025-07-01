@@ -1,41 +1,25 @@
-name: Cerberos-Build
+name: Cerberos - Laravel CI
 
 on:
-  push:
-    # Run when any tag is created.
-    tags:
-      - "*"
-
-  # Run on PR's for master when Opened, Reopened or Synchronized.
   pull_request:
+    # Run on PR's for master when Opened, Reopened or Synchronized.
     branches:
       - master
     types:
       - opened
-      - synchronize
       - reopened
-      - closed
+      - synchronize
 
 jobs:
-  cerberos-build:
-    runs-on: ubuntu-latest
-
+  cerberos-laravel-ci:
     strategy:
       matrix:
-        php-version: [8.1]
+        php-version: [8.2]
+        node-version: [22]
 
-    steps:
-      - uses: shivammathur/setup-php@v2
-        with:
-          php-version: ${{ matrix.php-version }}
-
-      - uses: actions/checkout@v2
-
-      - name: Install Composer Dependencies
-        run: composer install --prefer-dist --no-interaction  --no-progress --no-suggest
-
-      - name: Execute PHPUnit
-        run: vendor/bin/phpunit
-
-      - name: The PHP Security Checker
-        uses: symfonycorp/security-checker-action@v3
+    # Inherit secrets makes sure we use the secrets from this workflow in the called workflow
+    secrets: inherit
+    uses: cerberos-dev/cerberos-internal/.github/workflows/cerberos.laravel-ci.yml@1.0.7
+    with:
+      php-version: ${{ matrix.php-version }}
+      node-version: ${{ matrix.node-version }}
