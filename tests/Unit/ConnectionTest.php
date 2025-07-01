@@ -1,6 +1,6 @@
 <?php
 
-namespace Cerberos\Tests;
+namespace Unit;
 
 use Cerberos\Exceptions\ApiException;
 use Cerberos\Exceptions\TooManyRequestsException;

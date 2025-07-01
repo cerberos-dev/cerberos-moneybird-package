@@ -1,6 +1,6 @@
 <?php
 
-namespace CerberosTest\Financials\Moneybird\Entities;
+namespace Feature\Financials\Moneybird\Entities;
 
 use Cerberos\Exceptions\ApiException;
 use Cerberos\Moneybird\Connection;

@@ -1,6 +1,6 @@
 <?php
 
-namespace CerberosTest\Financials\Moneybird;
+namespace Feature\Financials\Moneybird;
 
 use Cerberos\Moneybird\Connection;
 use Cerberos\Moneybird\Entities\Contact;
