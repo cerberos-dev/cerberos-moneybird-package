@@ -1,6 +1,6 @@
 <?php
 
-namespace CerberosTest\Financials\Moneybird\Entities\SalesInvoice;
+namespace Feature\Financials\Moneybird\Entities\SalesInvoice;
 
 use Cerberos\Moneybird\Entities\SalesInvoice\SendInvoiceOptions;
 use DateTime;

@@ -1,6 +1,6 @@
 <?php
 
-namespace Cerberos\Tests;
+namespace Unit;
 
 use Cerberos\Moneybird\Entities\Administration;
 use Cerberos\Moneybird\Entities\Contact;
