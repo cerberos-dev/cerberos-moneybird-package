@@ -22,9 +22,9 @@ class Connection
     protected string $authorizationCode;
 
     /**
-     * @var int|string
+     * @var int|string|null
      */
-    protected int | string $administrationId;
+    protected int | string | null $administrationId;
 
     /**
      * @var array Middlewares for the Guzzle 6 client
