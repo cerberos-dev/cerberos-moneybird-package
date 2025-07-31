@@ -2,11 +2,11 @@
 
 namespace Cerberos\Moneybird\Entities;
 
-use Cerberos\Exceptions\ApiException;
-use Cerberos\Exceptions\TooManyRequestsException;
 use Cerberos\Moneybird\Actions\Filterable;
 use Cerberos\Moneybird\Actions\FindAll;
 use Cerberos\Moneybird\Actions\Synchronizable;
+use Cerberos\Moneybird\Exceptions\ApiException;
+use Cerberos\Moneybird\Exceptions\TooManyRequestsException;
 use Cerberos\Moneybird\Model;
 use GuzzleHttp\Exception\GuzzleException;
 

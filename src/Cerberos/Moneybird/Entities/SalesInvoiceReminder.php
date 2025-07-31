@@ -2,7 +2,7 @@
 
 namespace Cerberos\Moneybird\Entities;
 
-use Cerberos\Exceptions\ApiException;
+use Cerberos\Moneybird\Exceptions\ApiException;
 use Cerberos\Moneybird\Model;
 use GuzzleHttp\Exception\GuzzleException;
 

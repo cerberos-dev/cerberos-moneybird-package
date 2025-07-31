@@ -2,12 +2,12 @@
 
 namespace Cerberos\Moneybird\Entities;
 
-use Cerberos\Exceptions\ApiException;
 use Cerberos\Moneybird\Actions\FindAll;
 use Cerberos\Moneybird\Actions\FindOne;
 use Cerberos\Moneybird\Actions\Removable;
 use Cerberos\Moneybird\Actions\Search;
 use Cerberos\Moneybird\Actions\Storable;
+use Cerberos\Moneybird\Exceptions\ApiException;
 use Cerberos\Moneybird\Model;
 use GuzzleHttp\Exception\GuzzleException;
 

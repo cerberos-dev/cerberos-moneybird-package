@@ -2,9 +2,9 @@
 
 namespace Feature\Financials\Moneybird\Entities;
 
-use Cerberos\Exceptions\ApiException;
 use Cerberos\Moneybird\Connection;
 use Cerberos\Moneybird\Entities\SalesInvoice;
+use Cerberos\Moneybird\Exceptions\ApiException;
 use GuzzleHttp\Exception\GuzzleException;
 use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;

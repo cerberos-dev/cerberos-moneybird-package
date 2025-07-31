@@ -2,15 +2,14 @@
 
 namespace Unit;
 
-use Cerberos\Exceptions\ApiException;
-use Cerberos\Exceptions\TooManyRequestsException;
 use Cerberos\Moneybird\Connection;
 use Cerberos\Moneybird\Entities\Contact;
+use Cerberos\Moneybird\Exceptions\ApiException;
+use Cerberos\Moneybird\Exceptions\TooManyRequestsException;
 use Closure;
 use GuzzleHttp\Exception\BadResponseException;
 use GuzzleHttp\Exception\GuzzleException;
 use GuzzleHttp\Middleware;
-use GuzzleHttp\Promise\PromiseInterface;
 use GuzzleHttp\Psr7;
 use PHPUnit\Framework\TestCase;
 use Psr\Http\Message\RequestInterface;

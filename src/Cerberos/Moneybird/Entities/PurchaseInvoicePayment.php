@@ -2,9 +2,9 @@
 
 namespace Cerberos\Moneybird\Entities;
 
-use Cerberos\Exceptions\ApiException;
-use Cerberos\Exceptions\TooManyRequestsException;
 use Cerberos\Moneybird\Entities\Generic\InvoicePayment;
+use Cerberos\Moneybird\Exceptions\ApiException;
+use Cerberos\Moneybird\Exceptions\TooManyRequestsException;
 use GuzzleHttp\Exception\GuzzleException;
 
 class PurchaseInvoicePayment extends InvoicePayment

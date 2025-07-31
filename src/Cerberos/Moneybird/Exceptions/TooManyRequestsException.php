@@ -1,6 +1,6 @@
 <?php
 
-namespace Cerberos\Exceptions;
+namespace Cerberos\Moneybird\Exceptions;
 
 class TooManyRequestsException extends ApiException
 {

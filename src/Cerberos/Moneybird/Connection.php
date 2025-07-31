@@ -2,8 +2,8 @@
 
 namespace Cerberos\Moneybird;
 
-use Cerberos\Exceptions\ApiException;
-use Cerberos\Exceptions\TooManyRequestsException;
+use Cerberos\Moneybird\Exceptions\ApiException;
+use Cerberos\Moneybird\Exceptions\TooManyRequestsException;
 use Exception;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\BadResponseException;
@@ -624,6 +624,9 @@ class Connection
         }
 
         $this->checkWhetherRateLimitHasBeenReached($response, $errorMessage);
+
+
+//        adsf
 
         return new ApiException('Error ' . $response->getStatusCode() . ': ' . $errorMessage, $response->getStatusCode(), $exception);
     }

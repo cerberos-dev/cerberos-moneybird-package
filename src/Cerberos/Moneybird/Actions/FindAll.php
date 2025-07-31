@@ -2,8 +2,8 @@
 
 namespace Cerberos\Moneybird\Actions;
 
-use Cerberos\Exceptions\ApiException;
-use Cerberos\Exceptions\TooManyRequestsException;
+use Cerberos\Moneybird\Exceptions\ApiException;
+use Cerberos\Moneybird\Exceptions\TooManyRequestsException;
 use GuzzleHttp\Exception\GuzzleException;
 
 trait FindAll

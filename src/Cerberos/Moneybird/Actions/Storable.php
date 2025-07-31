@@ -2,7 +2,6 @@
 
 namespace Cerberos\Moneybird\Actions;
 
-use Cerberos\Exceptions\ApiException;
 use Cerberos\Moneybird\Entities\Contact;
 use Cerberos\Moneybird\Entities\Estimate;
 use Cerberos\Moneybird\Entities\ExternalSalesInvoice;
@@ -21,6 +20,7 @@ use Cerberos\Moneybird\Entities\Subscription;
 use Cerberos\Moneybird\Entities\TimeEntry;
 use Cerberos\Moneybird\Entities\TypelessDocument;
 use Cerberos\Moneybird\Entities\Webhook;
+use Cerberos\Moneybird\Exceptions\ApiException;
 use GuzzleHttp\Exception\GuzzleException;
 
 trait Storable

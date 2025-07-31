@@ -2,7 +2,7 @@
 
 namespace Cerberos\Moneybird\Actions;
 
-use Cerberos\Exceptions\ApiException;
+use Cerberos\Moneybird\Exceptions\ApiException;
 use GuzzleHttp\Exception\GuzzleException;
 
 trait Removable
